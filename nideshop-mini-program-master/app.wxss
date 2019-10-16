@@ -2,7 +2,7 @@
 .container {
   box-sizing: border-box;
   background-color: #f4f4f4;
-  font-family: PingFangSC-Light,helvetica,'Heiti SC';
+  font-family: PingFangSC-Light,helvetica,'Heiti SC';;
 } 
 
 view,image,text,navigator{
