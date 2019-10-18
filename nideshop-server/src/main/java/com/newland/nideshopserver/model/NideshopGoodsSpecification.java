@@ -24,5 +24,7 @@ public class NideshopGoodsSpecification {
     private Integer specificationId;
     private String value;
     private String picUrl;
+    @Transient
+    private String name;
 
 }
