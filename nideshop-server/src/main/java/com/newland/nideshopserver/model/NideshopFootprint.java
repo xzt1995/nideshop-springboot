@@ -15,7 +15,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Table(name = "nideshop_footprInteger")
+@Table(name = "nideshop_footprint")
 public class NideshopFootprint {
     @Id
     @KeySql(useGeneratedKeys = true)

@@ -49,4 +49,35 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categoryList;
     }
+    
+    @Override
+	public NideshopCategory getById(Integer id) {
+		NideshopCategory category = categoryMapper.selectByPrimaryKey(id);
+		return category;
+	}
+
+	@Override
+	public List<NideshopCategory> selectByParentId(Integer parentId) {
+		Example e = new Example(NideshopCategory.class);
+		e.createCriteria().andEqualTo("parentId", parentId);
+
+		List<NideshopCategory> list = categoryMapper.selectByExample(e);
+
+		return list;
+
+	}
+
+	@Override
+	public List<NideshopCategory> queryByExample(Example e2) {
+		List<NideshopCategory> list = categoryMapper.selectByExample(e2);
+		return list;
+	}
+	
+
+	
+	@Override
+	public List<Integer> selectSubCatetoryIds(Integer categoryId) {
+		
+		return categoryMapper.listSecondCategory(categoryId);
+	}
 }

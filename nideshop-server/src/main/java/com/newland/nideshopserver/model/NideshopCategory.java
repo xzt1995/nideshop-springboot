@@ -6,6 +6,10 @@ import lombok.ToString;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,4 +38,9 @@ public class NideshopCategory {
     private String level;
     private Integer type;
     private String frontName;
+    @Transient
+    @JsonProperty("subCategoryList")
+    private List<NideshopCategory> subCategoryList;
+    @Transient
+    private Boolean checked;
 }

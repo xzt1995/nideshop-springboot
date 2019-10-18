@@ -2,17 +2,16 @@ package com.newland.nideshopserver.mapper;
 
 import com.newland.nideshopserver.config.MyMapper;
 import com.newland.nideshopserver.model.NideshopComment;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
  * @author xzt
  * @CREATE2019-10-15 10:16
  */
-@Mapper
+@Repository
 public interface CommentMapper extends MyMapper<NideshopComment> {
 
     /**
@@ -30,8 +29,8 @@ public interface CommentMapper extends MyMapper<NideshopComment> {
      * @param valueId
      * @return
      */
-    @Select("select count(*) from `nideshop_comment` RIGHT JOIN `nideshop_comment_picture` on `nideshop_comment`.`id` = `nideshop_comment_picture`.`comment_id` WHERE ( `type_id = #{typeId} ) AND ( `value_id` = #{valueId} ) LIMIT 1 ")
-    int joinCommentCount(int typeID, int valueId);
+    @Select("select count(*) from `nideshop_comment` RIGHT JOIN `nideshop_comment_picture` on `nideshop_comment`.`id` = `nideshop_comment_picture`.`comment_id` WHERE ( `type_id` = #{typeId} ) AND ( `value_id` = #{valueId} ) LIMIT 1 ")
+    int joinCommentCount(@Param("typeId")int typeId,@Param("valueId") int valueId);
 
 
     /**
