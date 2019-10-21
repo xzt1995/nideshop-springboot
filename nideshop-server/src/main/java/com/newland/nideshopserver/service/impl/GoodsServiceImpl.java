@@ -99,4 +99,13 @@ public class GoodsServiceImpl implements GoodsService {
 		return productMapper.select(record);
 
 	}
+
+	@Override
+	public List<NideshopGoods> relatedGoods(Integer id) {
+		List<NideshopGoods> related=goodsMapper.relatedGoods(id);
+		if(related==null||related.size()==0) {
+			related=goodsMapper.selectBrotherGoods( id);
+		}
+		return related;
+	}
 }

@@ -114,8 +114,8 @@ public class CommentServiceImpl implements CommentService {
 		NideshopComment record = new NideshopComment();
 		record.setValueId(valueId);
 		record.setTypeId(typeId);
-
-		return commentMapper.selectOne(record);
+		List<NideshopComment> list = commentMapper.select(record);
+		return list.size()>0?list.get(0):null;
 	}
 
 	@Override

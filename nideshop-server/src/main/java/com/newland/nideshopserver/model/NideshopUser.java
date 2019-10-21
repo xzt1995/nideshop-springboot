@@ -25,7 +25,7 @@ public class NideshopUser {
     private Byte gender;
     private Integer birthday;
     private Integer registerTime;
-    private Integer lastLogIntegerime;
+    private Integer lastLoginTime;
     private String lastLoginIp;
     private Integer userLevelId;
     private String nickname;

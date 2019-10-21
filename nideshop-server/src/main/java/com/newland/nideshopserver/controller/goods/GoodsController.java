@@ -267,4 +267,15 @@ public class GoodsController<E> {
 		result.setData(data);
 		return result;
 	}
+	
+	@RequestMapping("goods/related")
+	public Result related(Integer id) {
+		
+		List<NideshopGoods> relatedGoods=goodsService.relatedGoods(id);
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("goodsList", relatedGoods);
+		Result result = new Result();
+		result.setData(map);
+		return result;
+	}
 }

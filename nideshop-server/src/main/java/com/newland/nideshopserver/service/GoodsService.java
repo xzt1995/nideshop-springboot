@@ -35,4 +35,9 @@ public interface GoodsService {
 	 * @param id
 	 */
 	List<NideshopProduct> getProductList(Integer goodsId);
+	/**
+	 * @param id
+	 * @return
+	 */
+	List<NideshopGoods> relatedGoods(Integer id);
 }
