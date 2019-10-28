@@ -1,7 +1,6 @@
 package com.newland.nideshopserver.utis;
 
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;

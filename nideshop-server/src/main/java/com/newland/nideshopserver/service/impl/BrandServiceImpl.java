@@ -15,6 +15,8 @@ import java.util.List;
 @Service
 public class BrandServiceImpl implements BrandService {
 
+
+
     @Autowired
     private BrandMapper brandMapper;
     @Override
@@ -25,5 +27,8 @@ public class BrandServiceImpl implements BrandService {
 	public NideshopBrand getById(Integer id) {
 		return brandMapper.selectByPrimaryKey(id);
 	}
-	
+    @Override
+    public NideshopBrand findOneById(int id) {
+        return brandMapper.selectByPrimaryKey(id);
+    }
 }

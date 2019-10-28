@@ -31,8 +31,8 @@ public class CommentController {
      * @return
      */
     @RequestMapping("/comment/list")
-    public Result listAction(int valueId , int typeId ,int size)throws Exception{
-        CountSelect countSelect = commentService.listService(typeId, valueId, size);
+    public Result listAction(int valueId , int typeId ,int size , Integer showType , Integer page)throws Exception{
+        CountSelect countSelect = commentService.listService(typeId, valueId, size,showType,page);
         Result result = new Result();
         result.setData(countSelect);
         return result;

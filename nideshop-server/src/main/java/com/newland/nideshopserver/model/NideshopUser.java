@@ -6,6 +6,7 @@ import lombok.ToString;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -22,10 +23,10 @@ public class NideshopUser {
     private Integer id;
     private String username;
     private String password;
-    private Byte gender;
+    private Integer gender;
     private Integer birthday;
-    private Integer registerTime;
-    private Integer lastLoginTime;
+    private Date registerTime;
+    private Date lastLoginTime;
     private String lastLoginIp;
     private Integer userLevelId;
     private String nickname;

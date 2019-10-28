@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface BrandService {
     List<NideshopBrand> list();
-    
+
     NideshopBrand getById(Integer id);
 
-	
+    NideshopBrand findOneById(int id);
 }

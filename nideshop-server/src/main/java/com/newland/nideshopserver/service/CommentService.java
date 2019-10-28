@@ -18,7 +18,7 @@ public interface CommentService {
      * @param size 每页数量
      * @return
      */
-    CountSelect listService(int typeId, int valueId, int size) throws Exception;
+    CountSelect listService(int typeId, int valueId, int size,Integer showType , Integer page) throws Exception;
 
 
     /**
@@ -53,6 +53,6 @@ public interface CommentService {
 	 * @return
 	 */
 	Comment getCommentInfo(NideshopComment hotComment);
-    
+
 
 }

@@ -36,16 +36,22 @@ public class CommentServiceImpl implements CommentService {
 	private CommentPictureMapper commentPictureMapper;
 
 	@Override
-    public CountSelect listService(int typeId, int valueId, int size) throws Exception {
-        // page = (page > 0 ) ? page : 1 ;
+    public CountSelect listService(int typeId, int valueId, int size,Integer showType , Integer page) throws Exception {
+	    if (page == null){
+            page = 1 ;
+        }else {
+            page = (page > 0 ) ? page : 1 ;
+        }
+	    if (showType == null){
+	        showType = 0;
+        }else {
+            showType = (showType > 0 ) ? showType : 0 ;
+        }
         size = (size > 0) ? size : 20;
-        // showType = (showType > 0 ) ? showType : 0 ;
-        int page = 1;
-        int showType = 0;
         List<NideshopComment> commentList = null;
         // 当前topic评论总数
         int count = 0;
-        if (showType == 0) {
+        if (showType != 1) {
             // 全部评论数量
             count = commentMapper.commentCount(typeId, valueId);
             // 查询TOPIC所有评论数据（取前size个）
@@ -63,7 +69,8 @@ public class CommentServiceImpl implements CommentService {
         } else {
             // 带图片评论数量
             count = commentMapper.joinCommentCount(typeId, valueId);
-            commentList = commentMapper.picComment(typeId, valueId, page, size);
+            int begin = (size * page) - size;
+            commentList = commentMapper.picComment(typeId,valueId,begin,size);
         }
         ArrayList<Comment> list = new ArrayList<>();
         if (commentList != null) {
@@ -126,17 +133,17 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment getCommentInfo(NideshopComment hotComment) {
-		
+
 		if(hotComment==null) {
 			return null;
 		}
-		
+
 		Comment comment = new Comment();
 		NideshopUser user = new NideshopUser();
 		user.setId(hotComment.getUserId());
 		NideshopUser user2 = userMapper.selectOne(user);
-	
-		
+
+
 		try {
 			comment.setContent(Utis.base64Decoder(hotComment.getContent()));
 		} catch (Exception e) {
@@ -145,13 +152,13 @@ public class CommentServiceImpl implements CommentService {
 		comment.setAddTime(new Date(hotComment.getAddTime()*1000).toString());
 		comment.setNikename(user2.getNickname());
 		comment.setAvatar(user2.getAvatar());
-		
+
 		NideshopCommentPicture pic=new NideshopCommentPicture();
 		pic.setCommentId(hotComment.getId());
 		List<NideshopCommentPicture> picList = commentPictureMapper.select(pic);
-		
+
 		comment.setPicList(picList);
-		
+
 		return comment;
 	}
 
