@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.newland.nideshopserver.mapper.GoodsMapper;
 import com.newland.nideshopserver.model.NideshopBrand;
 import com.newland.nideshopserver.model.NideshopCategory;
 import com.newland.nideshopserver.model.NideshopComment;
@@ -76,9 +77,10 @@ public class GoodsController<E> {
 
 	@Autowired
 	private CollectService collectService;
-	
+
 	@Autowired
 	private FootprintService footprintService;
+
 	/**
 	 * 首页搜索框显示的宝贝总数
 	 * 
@@ -140,6 +142,7 @@ public class GoodsController<E> {
 		}
 
 		// 查找所属二级分类的id
+		@SuppressWarnings("unchecked")
 		List<NideshopGoods> goodsList = goodsService.queryByExample(e);
 		int listSize = goodsList.size();
 		if (listSize > 10000) {
@@ -159,25 +162,8 @@ public class GoodsController<E> {
 
 		if (categoryIds != null && categoryIds.size() > 0) {
 			// 查找二级分类的parent_id
-			Example e2 = new Example(NideshopCategory.class);
-			Criteria criteria2 = e2.selectProperties("parentId").createCriteria();
-			criteria2.andIn("id", categoryIds);
-
-			List<NideshopCategory> ParentCategorys = categoryService.queryByExample(e2);
-			int listSize2 = ParentCategorys.size();
-			if (listSize2 > 10000) {
-				listSize2 = 10000;
-			}
-			ArrayList<Integer> parentIds = new ArrayList<>();
-			for (int i = 0; i < listSize2; i++) {
-				parentIds.add(ParentCategorys.get(i).getParentId());
-			}
-
-			Example e3 = new Example(NideshopCategory.class);
-			e3.setOrderByClause("sort_order");
-			Criteria criteria3 = e3.selectProperties("id", "name").createCriteria();
-			criteria3.andIn("id", parentIds);
-			List<NideshopCategory> parentCategory = categoryService.queryByExample(e3);
+			List<Integer> parentIds = categoryService.getParentIdsBycategoryIds(categoryIds);
+			List<NideshopCategory> parentCategory = categoryService.selectByIdList(parentIds);
 			filterCategory.addAll(parentCategory);
 		}
 
@@ -217,7 +203,7 @@ public class GoodsController<E> {
 	}
 
 	@RequestMapping("goods/detail")
-	public Result detail(HttpSession session,Integer id) {
+	public Result detail(HttpSession session, Integer id) {
 		NideshopGoods info = goodsService.selectById(id);
 
 		List<NideshopGoodsGallery> gallery = goodsGalleryService.selectByGoodsId(id, 0, 4);
@@ -236,22 +222,19 @@ public class GoodsController<E> {
 		HashMap<String, Object> comment = new HashMap<>();
 		comment.put("count", commentCount);
 		comment.put("data", commentInfo);
-		
-		Integer userId=(Integer) session.getAttribute("userId");
-		//TODO 从session中获取用户id，登录功能完成后需删掉
-		if(userId==null) {
-			userId=1;
+
+		Integer userId = (Integer) session.getAttribute("userId");
+		// TODO 从session中获取用户id，登录功能完成后需删掉
+		if (userId == null) {
+			userId = 1;
 		}
-		
-		
-		int userHasCollect=collectService.isUserHasCollect(userId,0,id);
-		
-		footprintService.addFootprint(userId,id);
-		
-		
-		List<Specification> specificationList=goodsService.getSpecificationList(id);
-		
-		
+
+		int userHasCollect = collectService.isUserHasCollect(userId, 0, id);
+
+		footprintService.addFootprint(userId, id);
+
+		List<Specification> specificationList = goodsService.getSpecificationList(id);
+
 		List<NideshopProduct> productList = goodsService.getProductList(id);
 		Result result = new Result();
 		HashMap<String, Object> data = new HashMap<>();
@@ -267,15 +250,102 @@ public class GoodsController<E> {
 		result.setData(data);
 		return result;
 	}
-	
+
 	@RequestMapping("goods/related")
 	public Result related(Integer id) {
-		
-		List<NideshopGoods> relatedGoods=goodsService.relatedGoods(id);
-		HashMap<String,Object> map = new HashMap<>();
+
+		List<NideshopGoods> relatedGoods = goodsService.relatedGoods(id);
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("goodsList", relatedGoods);
 		Result result = new Result();
 		result.setData(map);
+		return result;
+	}
+
+	@RequestMapping("goods/hot")
+	public Result hot() {
+
+		HashMap<String, Object> data = new HashMap<>();
+		HashMap<String, Object> bannerInfo = new HashMap<>();
+		bannerInfo.put("url", "");
+		bannerInfo.put("name", "大家都在买的严选好物");
+		bannerInfo.put("img_url", "http://yanxuan.nosdn.127.net/8976116db321744084774643a933c5ce.png");
+		data.put("bannerInfo", bannerInfo);
+		Result result = new Result();
+		return result;
+	}
+
+	@RequestMapping("goods/new")
+	public Result newGoods() {
+		HashMap<String, Object> data = new HashMap<>();
+		HashMap<String, Object> bannerInfo = new HashMap<>();
+		bannerInfo.put("url", "");
+		bannerInfo.put("name", "坚持初心，为你寻觅世间好物");
+		bannerInfo.put("img_url", "http://yanxuan.nosdn.127.net/8976116db321744084774643a933c5ce.png");
+		data.put("bannerInfo", bannerInfo);
+		Result result = new Result();
+		return result;
+	}
+
+	@RequestMapping("goods/filter")
+	public Result filter(Integer categoryId, String keyword, Integer isNew, Integer isHot) {
+		Example example = new Example(NideshopGoods.class);
+		Criteria criteria = example.createCriteria();
+
+		if (categoryId != null) {
+			List<Integer> ids = categoryService.getChildCategoryId(categoryId);
+			criteria.andIn("categoryId", ids);
+		}
+
+		if (isNew != null) {
+			criteria.andEqualTo("isNew", isNew);
+		}
+		if (isHot != null) {
+			criteria.andEqualTo("isHot", isHot);
+		}
+		if (keyword != null) {
+			criteria.andLike("name", "%" + keyword + "%");
+		}
+		List<NideshopCategory> filterCategory = new ArrayList<>();
+
+		NideshopCategory superParent = new NideshopCategory();
+		superParent.setName("全部");
+		superParent.setId(0);
+		filterCategory.add(0, superParent);
+
+		example.selectProperties("categoryId");
+		@SuppressWarnings("unchecked")
+		List<Integer> categoryIds = goodsService.queryByExample(example);
+		if (categoryIds != null && categoryIds.size() > 0) {
+			List<Integer> parentIds = categoryService.getParentIdsBycategoryIds(categoryIds);
+			List<NideshopCategory> parentCategory = categoryService.selectByIdList(parentIds);
+			if(parentCategory!=null&&parentCategory.size()>0) {
+				filterCategory.addAll(parentCategory);
+			}
+		}
+
+		Result result = new Result();
+		result.setData(filterCategory);
+		return result;
+	}
+
+	@RequestMapping("goods/sku")
+	public Result sku(Integer id) {
+		List<Specification> specificationList = goodsService.getSpecificationList(id);
+		List<NideshopProduct> productList = goodsService.getProductList(id);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("specificationList", specificationList);
+		data.put("productList", productList);
+		
+		Result result = new Result();
+		return result;
+	}
+	
+	@RequestMapping("goods/index")
+	public Result index() {
+		List<NideshopGoods> goodsList=goodsService.selectAll();
+		Result result = new Result();
+		result.setData(goodsList);
 		return result;
 	}
 }

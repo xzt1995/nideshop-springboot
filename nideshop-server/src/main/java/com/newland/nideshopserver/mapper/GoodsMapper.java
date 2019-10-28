@@ -42,6 +42,18 @@ public interface GoodsMapper extends MyMapper<NideshopGoods> {
 	 */
     @Select("SELECT id, name, list_pic_url AS listPicUrl, retail_price AS retailPrice FROM nideshop_goods WHERE category_id=(SELECT category_id FROM nideshop_goods WHERE id=#{id}) LIMIT 8")
 	List<NideshopGoods> selectBrotherGoods(Integer id);
+	/**
+	 * @param categoryId
+	 * @return
+	 */
+    @Select("SELECT * FROM nideshop_goods WHERE category_id IN (SELECT id FROM nideshop_category WHERE parent_id=#{categoryId})")
+	List<NideshopGoods> selectByParentCategoryId(Integer categoryId);
+	/**
+	 * @param goodsId
+	 * @return
+	 */
+    @Select("SELECT list_pic_url FROM nideshop_goods WHERE id=#{goodsId}")
+	String getListPicUrl(Integer goodsId);
     
     
 }

@@ -1,20 +1,21 @@
 package com.newland.nideshopserver.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.newland.nideshopserver.mapper.GoodsMapper;
 import com.newland.nideshopserver.mapper.ProductMapper;
 import com.newland.nideshopserver.model.NideshopGoods;
 import com.newland.nideshopserver.model.NideshopGoodsSpecification;
 import com.newland.nideshopserver.model.NideshopProduct;
-import com.newland.nideshopserver.model.NideshopSpecification;
 import com.newland.nideshopserver.model.dto.Specification;
 import com.newland.nideshopserver.service.GoodsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * @author xzt @CREATE2019-10-11 11:36
@@ -51,8 +52,8 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public List<NideshopGoods> queryByExample(Example e) {
-		List<NideshopGoods> list = goodsMapper.selectByExample(e);
+	public List queryByExample(Example e) {
+		List list = goodsMapper.selectByExample(e);
 		return list;
 	}
 
@@ -107,5 +108,22 @@ public class GoodsServiceImpl implements GoodsService {
 			related=goodsMapper.selectBrotherGoods( id);
 		}
 		return related;
+	}
+
+	@Override
+	public List<NideshopGoods> selectByParentCategoryId(Integer categoryId) {
+		
+		
+		return goodsMapper.selectByParentCategoryId(categoryId);
+	}
+
+	@Override
+	public List<NideshopGoods> selectAll() {
+		return goodsMapper.selectAll();
+	}
+
+	@Override
+	public String getListPicUrl(Integer goodsId) {
+		return goodsMapper.getListPicUrl(goodsId);
 	}
 }
