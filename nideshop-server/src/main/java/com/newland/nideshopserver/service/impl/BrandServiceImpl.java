@@ -21,4 +21,9 @@ public class BrandServiceImpl implements BrandService {
     public List<NideshopBrand> list() {
         return brandMapper.list();
     }
+	@Override
+	public NideshopBrand getById(Integer id) {
+		return brandMapper.selectByPrimaryKey(id);
+	}
+	
 }

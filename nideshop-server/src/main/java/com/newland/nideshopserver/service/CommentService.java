@@ -1,6 +1,7 @@
 package com.newland.nideshopserver.service;
 
 import com.newland.nideshopserver.model.NideshopComment;
+import com.newland.nideshopserver.model.dto.Comment;
 import com.newland.nideshopserver.model.dto.CountSelect;
 
 /**
@@ -35,4 +36,23 @@ public interface CommentService {
      * @return
      */
     int picCount(int typeId , int valueId);
+
+
+	/**
+	 * 查看热门评论
+	 * @param typeId
+	 * @param valueId
+	 * @return
+	 */
+	NideshopComment getHotCommentByGoodsId(int typeId,int  valueId);
+
+
+	/**
+	 * 评论信息
+	 * @param hotComment
+	 * @return
+	 */
+	Comment getCommentInfo(NideshopComment hotComment);
+    
+
 }

@@ -43,7 +43,7 @@ public class TopicServiceImpl implements TopicService {
         int totalPages = Utis.totalPages(count, size);
         // 查询数据起始坐标
         int begin = (size * page) - size;
-        List<NideshopTopic> list = topicMapper.selectTopic(begin, size);
+        List<NideshopTopic> list = topicMapper.selectTopic( begin,size);
 
         CountSelect countSelect = new CountSelect();
         countSelect.setCount(count);

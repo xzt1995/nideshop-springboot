@@ -23,4 +23,6 @@ public class Comment {
     private String addTime;
     private List<NideshopCommentPicture> picList;
     private NideshopUser userInfo;
+    private String nikename;
+    private String avatar;
 }
