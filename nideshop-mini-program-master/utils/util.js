@@ -28,7 +28,7 @@ function request(url, data = {}, method = "GET") {
       data: data,
       method: method,
       header: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'X-Nideshop-Token': wx.getStorageSync('token')
       },
       success: function (res) {
