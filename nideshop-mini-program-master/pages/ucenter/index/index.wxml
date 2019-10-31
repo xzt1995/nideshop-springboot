@@ -77,7 +77,7 @@
     </view>
   </view>
 
-  <!-- <view class="logout" bindtap="exitLogin">退出登录</view> -->
+   <view class="logout" bindtap="exitLogin">退出登录</view>
 </view>
 
 <view class='dialog-login' wx:if="{{showLoginDialog}}" bindtap='onCloseLoginDialog'>
