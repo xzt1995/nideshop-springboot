@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.newland.nideshopserver.config.WxProgramPayConfig;
 import org.apache.shiro.codec.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -20,7 +19,7 @@ import java.util.Map;
  * @CREATE2019-10-28 10:28
  */
 public class WechatUtil {
-    public static JSONObject getSessionKeyOrOpenId(String code) {
+    public static JSONObject getSessionKeyOrOpenId(String code) throws Exception {
         String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";
         Map<String, String> requestUrlParam = new HashMap<>();
         // https://mp.weixin.qq.com/wxopen/devprofile?action=get_profile&token=164113089&lang=zh_CN

@@ -1,8 +1,5 @@
 package com.newland.nideshopserver.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author xzt
@@ -12,17 +9,17 @@ import java.util.List;
 public class PublicPath {
 
     //可以公开访问的controller
-    private static final String[] publicController = {"index","catalog","topic","auth","goods","brand","search","region"};
+    private static final String[] PUBLIC_CONTROLLE = {"index","catalog","topic","auth","goods","brand","search","region"};
 
     //可以公开访问的action
-    private static final String[] publicAction = {"/comment/list","/comment/count","/cart/index","/cart/add","/cart/checked","/cart/update","/cart/delete","/cart/goodscount","/pay/notify","/pages/ucenter/index/index"};
+    private static final String[] PUBLIC_ACTION = {"/comment/list","/comment/count","/cart/index","/cart/add","/cart/checked","/cart/update","/cart/delete","/cart/goodscount","/pay/notify","/pages/ucenter/index/index"};
 
 
     public static String[] getPublicController() {
-        return publicController;
+        return PUBLIC_CONTROLLE;
     }
 
     public static String[] getPublicAction() {
-        return publicAction;
+        return PUBLIC_ACTION;
     }
 }
