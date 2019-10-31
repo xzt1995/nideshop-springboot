@@ -58,7 +58,7 @@ public class Utis {
      * @return
      */
     public static  String timeFormat(Long time){
-        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000));
+        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time*1000));
         return result;
     }
 

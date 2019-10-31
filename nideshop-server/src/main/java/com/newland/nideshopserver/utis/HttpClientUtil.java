@@ -69,13 +69,15 @@ public class HttpClientUtil {
         return doGet(url, null);
     }
 
-    public static String doPost(String url, Map<String, String> param) {
+    public static String doPost(String url, Map<String, String> param) throws Exception {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String resultString = "";
+        SslUtil.ignoreSsl();
         try {
             // 创建Http Post请求
+            SslUtil.ignoreSsl();
             HttpPost httpPost = new HttpPost(url);
             // 创建参数列表
             if (param != null) {
@@ -87,6 +89,7 @@ public class HttpClientUtil {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
                 httpPost.setEntity(entity);
             }
+            SslUtil.ignoreSsl();
             // 执行http请求
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
@@ -94,7 +97,10 @@ public class HttpClientUtil {
             e.printStackTrace();
         } finally {
             try {
-                response.close();
+                if (response != null) {
+                    response.close();
+                }
+                httpClient.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,7 +109,7 @@ public class HttpClientUtil {
         return resultString;
     }
 
-    public static String doPost(String url) {
+    public static String doPost(String url) throws Exception {
         return doPost(url, null);
     }
 
