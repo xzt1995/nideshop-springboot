@@ -41,4 +41,37 @@ public interface CartService {
 	 */
 	void incrementNumber(Integer goodsId, Integer productId, Integer id, Integer number);
 
+	/**
+	 * @param id
+	 * @return
+	 */
+	NideshopCart getCartById(Integer id);
+
+	/**
+	 * @param id
+	 * @param number
+	 */
+	void updateNumber(Integer id, Integer number);
+
+	/**
+	 * @param cartData
+	 */
+	void update(NideshopCart cartData);
+
+	/**
+	 * @param id
+	 */
+	void deleteById(Integer id);
+
+	/**
+	 * @param productIds
+	 * @param isChecked
+	 */
+	void updateChecked(String[] productIds, Integer isChecked);
+
+	/**
+	 * @param productId
+	 */
+	void deleteProductIdIn(String[] productId);
+
 }

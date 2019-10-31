@@ -45,4 +45,11 @@ public interface CartMapper extends MyMapper<NideshopCart> {
 	@Update("UPDATE nideshop_cart SET number=number+#{number} WHERE goods_id=#{goodsId} AND product_id=#{productId} AND id=#{id}")
 	void incrementNumber(@Param("goodsId")Integer goodsId, @Param("productId")Integer productId, @Param("id")Integer id, @Param("number")Integer number);
 
+	/**
+	 * @param id
+	 * @param number
+	 */
+	@Update("UPDATE nideshop_cart SET number=#{number} WHERE id=#{id}")
+	void updateNumber(@Param("id")Integer id, @Param("number")Integer number);
+
 }

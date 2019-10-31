@@ -224,10 +224,7 @@ public class GoodsController<E> {
 		comment.put("data", commentInfo);
 
 		Integer userId = (Integer) session.getAttribute("userId");
-		// TODO 从session中获取用户id，登录功能完成后需删掉
-		if (userId == null) {
-			userId = 1;
-		}
+		
 
 		int userHasCollect = collectService.isUserHasCollect(userId, 0, id);
 
@@ -348,4 +345,5 @@ public class GoodsController<E> {
 		result.setData(goodsList);
 		return result;
 	}
+	
 }

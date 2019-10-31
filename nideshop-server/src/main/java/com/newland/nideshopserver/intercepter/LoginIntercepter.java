@@ -30,7 +30,8 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
         log.info("----------------登录拦截器--------------");
 
         HttpSession session = request.getSession();
-
+     // TODO 从session中获取用户id，登录功能完成后需删掉
+        session.setAttribute("userId", 1);
         //获取访问路径
         String path = request.getServletPath();
         //获取controller名称
@@ -39,13 +40,18 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
         List<String> controllers = Arrays.asList(PublicPath.getPublicController());
         List<String> actions = Arrays.asList(PublicPath.getPublicAction());
         if (!controllers.contains(split[1]) && !actions.contains(path)) {
+        	
+        	
+        	
             //非公开路径，需要登录验证
-            NideshopUser userInfo = (NideshopUser) session.getAttribute("userInfo");
+           NideshopUser userInfo = (NideshopUser) session.getAttribute("userInfo");
             if (userInfo == null) {
                 log.info("用户未登录！");
                 Result result = new Result();
                 result.setErrno(ResultCode.NO_AUTH.val());
                 result.setErrmsg(ResultCode.NO_AUTH.msg());
+                
+                response.getWriter().print(result);
                 return false;
             } else {
                 log.info("用户已经登录");
