@@ -74,11 +74,20 @@ public class AuthController {
         String token = UUID.randomUUID().toString();
         if (user == null) {
             // 用户信息入库
-            String nickName = rawDataJson.getString("nickname");
-            String avatarUrl = rawDataJson.getString("avatar");
+            String nickName = rawDataJson.getString("nickName");
+            String avatarUrl = rawDataJson.getString("avatarUrl");
             String gender = rawDataJson.getString("gender");
 
             user = new NideshopUser();
+            user.setUsername("微信用户" +UUID.randomUUID());
+            user.setPassword("");
+            user.setMobile("");
+            user.setBirthday(0);
+            user.setRegisterIp("");
+            user.setLastLoginIp("");
+            user.setUserLevelId(1);
+            
+            
             user.setWeixinOpenid(openid);
             user.setRegisterTime(System.currentTimeMillis()/1000);
             user.setLastLoginTime(System.currentTimeMillis()/1000);
