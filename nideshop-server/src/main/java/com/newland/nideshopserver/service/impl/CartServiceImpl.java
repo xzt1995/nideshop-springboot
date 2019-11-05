@@ -39,10 +39,11 @@ public class CartServiceImpl implements CartService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public NideshopCart getCartInfo(Integer goodsId, Integer productId) {
+	public NideshopCart getCartInfo(Integer userId,Integer goodsId, Integer productId) {
 
 		Example example = new Example(NideshopCart.class);
 		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("userId",userId);
 		criteria.andEqualTo("goodsId", goodsId);
 		criteria.andEqualTo("productId", productId);
 		PageInfo<NideshopCart> page = PageHelper.startPage(0, 1)

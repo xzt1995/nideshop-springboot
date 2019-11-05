@@ -16,4 +16,10 @@ import com.newland.nideshopserver.model.NideshopUser;
  */
 public interface UserService {
 
+	/**
+	 * @param token
+	 * @return
+	 */
+	NideshopUser findByToken(String token);
+
 }
