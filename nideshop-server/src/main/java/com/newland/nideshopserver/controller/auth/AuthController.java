@@ -86,15 +86,12 @@ public class AuthController {
             user.setRegisterIp("");
             user.setLastLoginIp("");
             user.setUserLevelId(1);
-            
-            
             user.setWeixinOpenid(openid);
             user.setRegisterTime(System.currentTimeMillis()/1000);
             user.setLastLoginTime(System.currentTimeMillis()/1000);
             user.setAvatar(avatarUrl);
             user.setGender(Integer.parseInt(gender));
             user.setNickname(nickName);
-
             this.userMapper.insert(user);
         } else {
             // 已存在，更新用户登录时间
