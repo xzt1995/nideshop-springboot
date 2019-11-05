@@ -8,12 +8,12 @@ public class WxProgramPayConfig {
     /**
      * AppID(小程序ID)
      */
-    public static final String APPID = "wxf505cf2bcf407aa9";
+    public static final String APPID = "wxb120cf8387db3c0d";
 
     /**
      * AppSecret(小程序密钥)
      */
-    public static final String SECRET="98001abc0bc91a946c244fd2b9c7be41";
+    public static final String SECRET="31279cffc6d75cccae58b162e592e1bd";
 
 
     public static String MCH_ID = "";

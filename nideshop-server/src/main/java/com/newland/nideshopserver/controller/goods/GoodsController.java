@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.newland.nideshopserver.mapper.GoodsMapper;
 import com.newland.nideshopserver.model.NideshopBrand;
 import com.newland.nideshopserver.model.NideshopCategory;
 import com.newland.nideshopserver.model.NideshopComment;
@@ -22,6 +21,7 @@ import com.newland.nideshopserver.model.NideshopGoodsGallery;
 import com.newland.nideshopserver.model.NideshopGoodsIssue;
 import com.newland.nideshopserver.model.NideshopProduct;
 import com.newland.nideshopserver.model.NideshopSearchHistory;
+import com.newland.nideshopserver.model.NideshopUser;
 import com.newland.nideshopserver.model.dto.Attribute;
 import com.newland.nideshopserver.model.dto.Comment;
 import com.newland.nideshopserver.model.dto.Result;
@@ -113,7 +113,7 @@ public class GoodsController<E> {
 	}
 
 	@RequestMapping("/goods/list")
-	public Result list(HttpSession session, Integer categoryId, Integer brandId, String keywords, Integer isNew,
+	public Result list(HttpServletRequest request, Integer categoryId, Integer brandId, String keywords, Integer isNew,
 			Integer isHot, Integer page, Integer size, String sort, String order) {
 		Example e = new Example(NideshopGoods.class);
 		Criteria criteria = e.selectProperties("categoryId").createCriteria();
@@ -127,7 +127,9 @@ public class GoodsController<E> {
 			criteria.andLike("name", "%" + keywords + "%");
 
 			// 添加到搜索历史
-			Object id = session.getAttribute("userId");
+			String token = request.getHeader("X-Nideshop-Token");
+			NideshopUser user = userService.findByToken(token);
+			Object id = user.getId();
 			NideshopSearchHistory history = new NideshopSearchHistory();
 			if (id != null) {
 				history.setUserId(id.toString());
@@ -203,7 +205,10 @@ public class GoodsController<E> {
 	}
 
 	@RequestMapping("goods/detail")
-	public Result detail(HttpSession session, Integer id) {
+	public Result detail(HttpServletRequest request, Integer id) {
+		String token = request.getHeader("X-Nideshop-Token");
+		NideshopUser user = userService.findByToken(token);
+
 		NideshopGoods info = goodsService.selectById(id);
 
 		List<NideshopGoodsGallery> gallery = goodsGalleryService.selectByGoodsId(id, 0, 4);
@@ -222,13 +227,12 @@ public class GoodsController<E> {
 		HashMap<String, Object> comment = new HashMap<>();
 		comment.put("count", commentCount);
 		comment.put("data", commentInfo);
-
-		Integer userId = (Integer) session.getAttribute("userId");
-		
-
-		int userHasCollect = collectService.isUserHasCollect(userId, 0, id);
-
-		footprintService.addFootprint(userId, id);
+		int userHasCollect = 0;
+		if (user != null) {
+			Integer userId = user.getId();
+			userHasCollect = collectService.isUserHasCollect(userId, 0, id);
+			footprintService.addFootprint(userId, id);
+		}
 
 		List<Specification> specificationList = goodsService.getSpecificationList(id);
 
@@ -316,7 +320,7 @@ public class GoodsController<E> {
 		if (categoryIds != null && categoryIds.size() > 0) {
 			List<Integer> parentIds = categoryService.getParentIdsBycategoryIds(categoryIds);
 			List<NideshopCategory> parentCategory = categoryService.selectByIdList(parentIds);
-			if(parentCategory!=null&&parentCategory.size()>0) {
+			if (parentCategory != null && parentCategory.size() > 0) {
 				filterCategory.addAll(parentCategory);
 			}
 		}
@@ -333,17 +337,17 @@ public class GoodsController<E> {
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("specificationList", specificationList);
 		data.put("productList", productList);
-		
+
 		Result result = new Result();
 		return result;
 	}
-	
+
 	@RequestMapping("goods/index")
 	public Result index() {
-		List<NideshopGoods> goodsList=goodsService.selectAll();
+		List<NideshopGoods> goodsList = goodsService.selectAll();
 		Result result = new Result();
 		result.setData(goodsList);
 		return result;
 	}
-	
+
 }

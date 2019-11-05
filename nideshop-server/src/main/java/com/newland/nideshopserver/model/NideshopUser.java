@@ -34,5 +34,5 @@ public class NideshopUser {
     private String registerIp;
     private String avatar;
     private String weixinOpenid;
-
+    private String token;
 }

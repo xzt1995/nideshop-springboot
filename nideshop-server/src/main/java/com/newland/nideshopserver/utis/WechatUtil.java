@@ -66,6 +66,7 @@ public class WechatUtil {
                 return JSON.parseObject(result);
             }
         } catch (Exception e) {
+        	
         }
         return null;
     }

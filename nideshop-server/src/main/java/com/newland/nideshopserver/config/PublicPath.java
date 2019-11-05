@@ -12,7 +12,7 @@ public class PublicPath {
     private static final String[] PUBLIC_CONTROLLE = {"index","catalog","topic","auth","goods","brand","search","region","error","collect"};
 
     //可以公开访问的action
-    private static final String[] PUBLIC_ACTION = {"/comment/list","/comment/count","/cart/index","/cart/add","/cart/checked","/cart/update","/cart/delete","/cart/goodscount","/pay/notify","/pages/ucenter/index/index"};
+    private static final String[] PUBLIC_ACTION = {"/comment/list","/comment/count","/pay/notify","/pages/ucenter/index/index"};
 
 
     public static String[] getPublicController() {

@@ -22,9 +22,10 @@ public interface CartService {
 	/**
 	 * @param goodsId
 	 * @param productId
+	 * @param productId2 
 	 * @return
 	 */
-	NideshopCart getCartInfo(Integer goodsId, Integer productId);
+	NideshopCart getCartInfo(Integer goodsId, Integer productId, Integer productId2);
 
 	/**
 	 * 根据productId查询，若不存在则插入

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +18,14 @@ import com.newland.nideshopserver.model.NideshopCart;
 import com.newland.nideshopserver.model.NideshopGoods;
 import com.newland.nideshopserver.model.NideshopGoodsSpecification;
 import com.newland.nideshopserver.model.NideshopProduct;
+import com.newland.nideshopserver.model.NideshopUser;
 import com.newland.nideshopserver.model.dto.Result;
 import com.newland.nideshopserver.service.CartService;
 import com.newland.nideshopserver.service.GoodsService;
 import com.newland.nideshopserver.service.GoodsSpecificationService;
 import com.newland.nideshopserver.service.ProductService;
 import com.newland.nideshopserver.service.SpecificationService;
+import com.newland.nideshopserver.service.UserService;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -52,11 +54,15 @@ public class CartController {
 	@Autowired
 	private SpecificationService specificationService;
 
+	@Autowired 
+	private UserService userService;
+	
 	// 获取购物车商品的总件件数
 	@RequestMapping("/cart/goodscount")
-	public Result goodscount(HttpSession session) {
-
-		Map<String, Object> cart = getCart(session);
+	public Result goodscount(HttpServletRequest request) {
+		String token = request.getHeader("X-Nideshop-Token");
+		
+		Map<String, Object> cart = getCart(token);
 		Map<String, Object> cartTotal = (Map<String, Object>) cart.get("cartTotal");
 		cartTotal.remove("goodsAmount");
 		cartTotal.remove("checkedGoodsCount");
@@ -76,9 +82,9 @@ public class CartController {
 	 * @returns {Promise.<{cartList: *, cartTotal: {goodsCount: number, goodsAmount:
 	 *          number, checkedGoodsCount: number, checkedGoodsAmount: number}}>}
 	 */
-	public Map<String, Object> getCart(HttpSession session) {
-		Integer userId = (Integer) session.getAttribute("userId");
-
+	public Map<String, Object> getCart(String token) {
+		Integer userId = userService.findByToken(token).getId();
+		
 		List<NideshopCart> cartList = cartService.cartList(userId, "1");
 		int goodsCount = 0;
 		BigDecimal goodsAmount = new BigDecimal(0);
@@ -113,16 +119,21 @@ public class CartController {
 	}
 
 	@RequestMapping("cart/index")
-	public Result index(HttpSession session) {
+	public Result index(HttpServletRequest request) {
 		Result result = new Result();
-		result.setData(getCart(session));
+		String token = request.getHeader("X-Nideshop-Token");
+		result.setData(getCart(token));
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/cart/add")
-	public Result add(HttpSession session, Integer goodsId, Integer productId, Integer number) {
+	public Result add(HttpServletRequest request, Integer goodsId, Integer productId, Integer number) {
 
+		String token = request.getHeader("X-Nideshop-Token");
+		NideshopUser userInfo = userService.findByToken(token);
+		Integer userId = userInfo.getId();
+		
 		Result result = new Result();
 		NideshopGoods goodsInfo = goodsService.selectById(goodsId);
 
@@ -140,7 +151,7 @@ public class CartController {
 			return result;
 		}
 
-		NideshopCart cartInfo = cartService.getCartInfo(goodsId, productId);
+		NideshopCart cartInfo = cartService.getCartInfo(userId,goodsId, productId);
 
 		if (cartInfo == null) {
 			// 添加操作
@@ -165,7 +176,7 @@ public class CartController {
 			nideshopCart.setListPicUrl(goodsInfo.getListPicUrl());
 			nideshopCart.setNumber(number);
 			nideshopCart.setSessionId("1");
-			nideshopCart.setUserId((Integer) session.getAttribute("userId"));
+			nideshopCart.setUserId(userInfo.getId());
 			nideshopCart.setRetailPrice(productInfo.getRetailPrice());
 			nideshopCart.setMarketPrice(productInfo.getRetailPrice());
 			nideshopCart.setGoodsSpecifitionNameValue(String.join(";", goodsSepcifitionValue));
@@ -184,15 +195,18 @@ public class CartController {
 
 		}
 
-		result.setData(getCart(session));
+		result.setData(getCart(token));
 		return result;
 
 	}
 
 	// 更新指定的购物车信息
 	@RequestMapping("cart/update")
-	public Result update(HttpSession session, Integer goodsId, Integer productId, Integer id, Integer number) {
+	public Result update(HttpServletRequest request, Integer goodsId, Integer productId, Integer id, Integer number) {
 		Result result = new Result();
+		String token = request.getHeader("X-Nideshop-Token");
+		NideshopUser userInfo = userService.findByToken(token);
+		Integer userId = userInfo.getId();
 		NideshopProduct productInfo = productService.getProductInfo(goodsId, productId);
 		// 取得规格的信息,判断规格库存
 		if (productInfo == null || productInfo.getGoodsNumber() == null || productInfo.getGoodsNumber() < number) {
@@ -206,11 +220,11 @@ public class CartController {
 		// 只是更新number
 		if (cartInfo.getProductId().equals(productId)) {
 			cartService.updateNumber(id, number);
-			result.setData(getCart(session));
+			result.setData(getCart(token));
 			return result;
 		}
 
-		NideshopCart newCartInfo = cartService.getCartInfo(goodsId, productId);
+		NideshopCart newCartInfo = cartService.getCartInfo(userId,goodsId, productId);
 		if (newCartInfo == null) {
 			// 直接更新原来的cartInfo
 
@@ -268,37 +282,39 @@ public class CartController {
 			cartData.setGoodsSn(productInfo.getGoodsSn());
 			cartService.update(cartData);
 		}
-		result.setData(getCart(session));
+		result.setData(getCart(token));
 		return result;
 	}
 
 	@RequestMapping("cart/checked")
-	public Result checked(HttpSession session, String productIds, Integer isChecked) {
+	public Result checked(HttpServletRequest request, String productIds, Integer isChecked) {
 		Result result = new Result();
 		if (productIds == null) {
 			result.setErrmsg("删除出错");
 			return result;
 		}
 
+		String token = request.getHeader("X-Nideshop-Token");
 		String[] productId = productIds.split(",");
 		cartService.updateChecked(productId, isChecked);
 
-		result.setData(getCart(session));
+		result.setData(getCart(token));
 		return result;
 	}
 
 	@RequestMapping("cart/delete")
-	public Result delete(HttpSession session, String productIds) {
+	public Result delete(HttpServletRequest request, String productIds) {
 		Result result = new Result();
 		if (productIds == null) {
 			result.setErrmsg("删除出错");
 			return result;
 		}
-
+		String token = request.getHeader("X-Nideshop-Token");
+		
 		String[] productId = productIds.split(",");
 		cartService.deleteProductIdIn(productId);
-		
-		result.setData(getCart(session));
+
+		result.setData(getCart(token));
 		return result;
 	}
 
