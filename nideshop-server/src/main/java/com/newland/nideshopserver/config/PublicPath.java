@@ -9,7 +9,7 @@ package com.newland.nideshopserver.config;
 public class PublicPath {
 
     //可以公开访问的controller
-    private static final String[] PUBLIC_CONTROLLE = {"index","catalog","topic","auth","goods","brand","search","region"};
+    private static final String[] PUBLIC_CONTROLLE = {"index","catalog","topic","auth","goods","brand","search","region","error"};
 
     //可以公开访问的action
     private static final String[] PUBLIC_ACTION = {"/comment/list","/comment/count","/pay/notify","/pages/ucenter/index/index"};

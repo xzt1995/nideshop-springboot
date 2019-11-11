@@ -42,14 +42,14 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
 		String path = request.getServletPath();
 		// 获取controller名称
 		String[] split = path.split("/");
-
+		log.info("----------------登录拦截器--------------" + "拦截路径:" +path);
 		List<String> controllers = Arrays.asList(PublicPath.getPublicController());
 		List<String> actions = Arrays.asList(PublicPath.getPublicAction());
 		if (!controllers.contains(split[1]) && !actions.contains(path)) {
 
 			// 非公开路径，需要登录验证
 			NideshopUser userInfo = userService.findByToken(token);
-			// NideshopUser userInfo = (NideshopUser) session.getAttribute("userInfo");
+
 			if (token==null||userInfo == null) {
 				log.info("用户未登录！");
 				Result result = new Result();

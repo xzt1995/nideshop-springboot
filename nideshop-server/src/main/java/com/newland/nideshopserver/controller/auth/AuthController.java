@@ -86,8 +86,8 @@ public class AuthController {
             user.setRegisterIp("");
             user.setLastLoginIp("");
             user.setUserLevelId(1);
-            
-            
+
+
             user.setWeixinOpenid(openid);
             user.setRegisterTime(System.currentTimeMillis()/1000);
             user.setLastLoginTime(System.currentTimeMillis()/1000);
@@ -103,16 +103,9 @@ public class AuthController {
             // 重新设置会话skey
             this.userMapper.updateByPrimaryKey(user);
         }
-        
-        
-       // HttpSession session = request.getSession();
-        //session.setAttribute("userInfo",user);
-      //  session.setAttribute("userId", user.getId());
         //encrypteData比rowData多了appid和openid
         JSONObject u = WechatUtil.getUserInfo(encrypteData, sessionKey, iv);
-        //6. 把新的skey返回给小程序
-
-        
+        //6. 把新的token返回给小程序
         Result result = new Result();
         HashMap<String, Object> map = new HashMap<>();
         map.put("token",token);
