@@ -1,11 +1,10 @@
 package com.newland.nideshopserver.intercepter;
 
-import com.alibaba.fastjson.JSON;
-import com.newland.nideshopserver.config.PublicPath;
-import com.newland.nideshopserver.model.NideshopUser;
-import com.newland.nideshopserver.model.dto.Result;
-import com.newland.nideshopserver.model.dto.ResultCode;
-import com.newland.nideshopserver.service.UserService;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.newland.nideshopserver.config.PublicPath;
+import com.newland.nideshopserver.model.NideshopUser;
+import com.newland.nideshopserver.model.dto.Result;
+import com.newland.nideshopserver.model.dto.ResultCode;
+import com.newland.nideshopserver.service.UserService;
 
 /**
  * @author xzt @CREATE2019-10-23 11:38 登录验证
@@ -35,8 +35,6 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		log.info("----------------登录拦截器--------------");
-
-		HttpSession session = request.getSession();
 
 		String token = request.getHeader("X-Nideshop-Token");
 

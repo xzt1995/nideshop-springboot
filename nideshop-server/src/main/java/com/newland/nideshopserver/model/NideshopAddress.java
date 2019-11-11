@@ -9,8 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * @author xzt
- * @CREATE2019-09-29 12:23
+ * @author xzt @CREATE2019-09-29 12:23
  */
 
 @Table(name = "nideshop_address")
@@ -18,16 +17,25 @@ import java.util.Objects;
 @Setter
 @ToString
 public class NideshopAddress {
-    @Id
-    @KeySql(useGeneratedKeys = true)
-    private Integer id;
-    private String name;
-    private Integer userId;
-    private Integer countryId;
-    private Integer provinceId;
-    private Integer cityId;
-    private Integer districtId;
-    private String address;
-    private String mobile;
-    private Integer isDefault;
+	@Id
+	@KeySql(useGeneratedKeys = true)
+	private Integer id;
+	private String name;
+	private Integer userId;
+	private Integer countryId;
+	private Integer provinceId;
+	private Integer cityId;
+	private Integer districtId;
+	private String address;
+	private String mobile;
+	private Integer isDefault;
+	@Transient
+	private String proviceName;
+	@Transient
+	private String cityName;
+	@Transient
+	private String districtName;
+	@Transient
+	private String fullRegion;
+
 }

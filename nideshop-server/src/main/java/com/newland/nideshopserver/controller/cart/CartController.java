@@ -12,20 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.ls.LSInput;
 
 import com.alibaba.fastjson.JSON;
+import com.newland.nideshopserver.model.NideshopAddress;
 import com.newland.nideshopserver.model.NideshopCart;
 import com.newland.nideshopserver.model.NideshopGoods;
 import com.newland.nideshopserver.model.NideshopGoodsSpecification;
 import com.newland.nideshopserver.model.NideshopProduct;
-import com.newland.nideshopserver.model.NideshopUser;
+import com.newland.nideshopserver.model.NideshopUserCoupon;
 import com.newland.nideshopserver.model.dto.Result;
+import com.newland.nideshopserver.service.AddressService;
 import com.newland.nideshopserver.service.CartService;
 import com.newland.nideshopserver.service.GoodsService;
 import com.newland.nideshopserver.service.GoodsSpecificationService;
 import com.newland.nideshopserver.service.ProductService;
+import com.newland.nideshopserver.service.RegionService;
 import com.newland.nideshopserver.service.SpecificationService;
+import com.newland.nideshopserver.service.UserCouponService;
 import com.newland.nideshopserver.service.UserService;
+import com.newland.nideshopserver.utis.RequestParamParseUtil;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -54,15 +60,26 @@ public class CartController {
 	@Autowired
 	private SpecificationService specificationService;
 
-	@Autowired 
+	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private AddressService addressService;
+
+	@Autowired
+	private RequestParamParseUtil requestParamUtil;
+
+	@Autowired
+	private RegionService regionService;
+
+	@Autowired
+	private UserCouponService userCouponService;
+
 	// 获取购物车商品的总件件数
 	@RequestMapping("/cart/goodscount")
 	public Result goodscount(HttpServletRequest request) {
-		String token = request.getHeader("X-Nideshop-Token");
-		
-		Map<String, Object> cart = getCart(token);
+
+		Map<String, Object> cart = getCart(requestParamUtil.getUserId(request));
 		Map<String, Object> cartTotal = (Map<String, Object>) cart.get("cartTotal");
 		cartTotal.remove("goodsAmount");
 		cartTotal.remove("checkedGoodsCount");
@@ -82,9 +99,8 @@ public class CartController {
 	 * @returns {Promise.<{cartList: *, cartTotal: {goodsCount: number, goodsAmount:
 	 *          number, checkedGoodsCount: number, checkedGoodsAmount: number}}>}
 	 */
-	public Map<String, Object> getCart(String token) {
-		Integer userId = userService.findByToken(token).getId();
-		
+	public Map<String, Object> getCart(Integer userId) {
+
 		List<NideshopCart> cartList = cartService.cartList(userId, "1");
 		int goodsCount = 0;
 		BigDecimal goodsAmount = new BigDecimal(0);
@@ -121,8 +137,7 @@ public class CartController {
 	@RequestMapping("cart/index")
 	public Result index(HttpServletRequest request) {
 		Result result = new Result();
-		String token = request.getHeader("X-Nideshop-Token");
-		result.setData(getCart(token));
+		result.setData(getCart(requestParamUtil.getUserId(request)));
 		return result;
 	}
 
@@ -130,10 +145,8 @@ public class CartController {
 	@RequestMapping("/cart/add")
 	public Result add(HttpServletRequest request, Integer goodsId, Integer productId, Integer number) {
 
-		String token = request.getHeader("X-Nideshop-Token");
-		NideshopUser userInfo = userService.findByToken(token);
-		Integer userId = userInfo.getId();
-		
+		Integer userId = requestParamUtil.getUserId(request);
+
 		Result result = new Result();
 		NideshopGoods goodsInfo = goodsService.selectById(goodsId);
 
@@ -151,7 +164,7 @@ public class CartController {
 			return result;
 		}
 
-		NideshopCart cartInfo = cartService.getCartInfo(userId,goodsId, productId);
+		NideshopCart cartInfo = cartService.getCartInfo(userId, goodsId, productId);
 
 		if (cartInfo == null) {
 			// 添加操作
@@ -176,7 +189,7 @@ public class CartController {
 			nideshopCart.setListPicUrl(goodsInfo.getListPicUrl());
 			nideshopCart.setNumber(number);
 			nideshopCart.setSessionId("1");
-			nideshopCart.setUserId(userInfo.getId());
+			nideshopCart.setUserId(userId);
 			nideshopCart.setRetailPrice(productInfo.getRetailPrice());
 			nideshopCart.setMarketPrice(productInfo.getRetailPrice());
 			nideshopCart.setGoodsSpecifitionNameValue(String.join(";", goodsSepcifitionValue));
@@ -195,7 +208,7 @@ public class CartController {
 
 		}
 
-		result.setData(getCart(token));
+		result.setData(getCart(requestParamUtil.getUserId(request)));
 		return result;
 
 	}
@@ -204,9 +217,8 @@ public class CartController {
 	@RequestMapping("cart/update")
 	public Result update(HttpServletRequest request, Integer goodsId, Integer productId, Integer id, Integer number) {
 		Result result = new Result();
-		String token = request.getHeader("X-Nideshop-Token");
-		NideshopUser userInfo = userService.findByToken(token);
-		Integer userId = userInfo.getId();
+
+		Integer userId = requestParamUtil.getUserId(request);
 		NideshopProduct productInfo = productService.getProductInfo(goodsId, productId);
 		// 取得规格的信息,判断规格库存
 		if (productInfo == null || productInfo.getGoodsNumber() == null || productInfo.getGoodsNumber() < number) {
@@ -220,11 +232,11 @@ public class CartController {
 		// 只是更新number
 		if (cartInfo.getProductId().equals(productId)) {
 			cartService.updateNumber(id, number);
-			result.setData(getCart(token));
+			result.setData(getCart(requestParamUtil.getUserId(request)));
 			return result;
 		}
 
-		NideshopCart newCartInfo = cartService.getCartInfo(userId,goodsId, productId);
+		NideshopCart newCartInfo = cartService.getCartInfo(userId, goodsId, productId);
 		if (newCartInfo == null) {
 			// 直接更新原来的cartInfo
 
@@ -282,7 +294,7 @@ public class CartController {
 			cartData.setGoodsSn(productInfo.getGoodsSn());
 			cartService.update(cartData);
 		}
-		result.setData(getCart(token));
+		result.setData(getCart(userId));
 		return result;
 	}
 
@@ -294,11 +306,10 @@ public class CartController {
 			return result;
 		}
 
-		String token = request.getHeader("X-Nideshop-Token");
 		String[] productId = productIds.split(",");
 		cartService.updateChecked(productId, isChecked);
 
-		result.setData(getCart(token));
+		result.setData(getCart(requestParamUtil.getUserId(request)));
 		return result;
 	}
 
@@ -309,12 +320,75 @@ public class CartController {
 			result.setErrmsg("删除出错");
 			return result;
 		}
-		String token = request.getHeader("X-Nideshop-Token");
-		
+
 		String[] productId = productIds.split(",");
 		cartService.deleteProductIdIn(productId);
 
-		result.setData(getCart(token));
+		result.setData(getCart(requestParamUtil.getUserId(request)));
+		return result;
+	}
+
+	/**
+	 * 订单提交前的检验和填写相关订单信息
+	 */
+	@RequestMapping("cart/checkout")
+	public Result checkout(Integer addressId, HttpServletRequest request) {
+
+		Result result = new Result();
+		NideshopAddress checkedAddress = null;
+		// 选择的收货地址
+		if (addressId == null) {
+			checkedAddress = addressService.findUserDefaultAddress(requestParamUtil.getUserId(request));
+		} else {
+			checkedAddress = addressService.findAddress(addressId, requestParamUtil.getUserId(request));
+		}
+
+		if (checkedAddress != null) {
+			checkedAddress.setProviceName(regionService.getRegionName(checkedAddress.getProvinceId()));
+			checkedAddress.setCityName(regionService.getRegionName(checkedAddress.getCityId()));
+			checkedAddress.setDistrictName(regionService.getRegionName(checkedAddress.getDistrictId()));
+			checkedAddress.setFullRegion(
+					checkedAddress.getProviceName() + checkedAddress.getCityName() + checkedAddress.getDistrictName());
+
+		}
+
+		// 根据收货地址计算运费
+		BigDecimal freightPrice = new BigDecimal(0);
+
+		// 获取要购买的商品
+		List<NideshopCart> checkedGoodsList = new ArrayList<>();
+		Map<String, Object> cartData = getCart(requestParamUtil.getUserId(request));
+		List<NideshopCart> cartList = (List<NideshopCart>) cartData.get("cartList");
+		for (int i = 0; i < cartList.size(); i++) {
+			if (cartList.get(i).getChecked() == 1) {
+				checkedGoodsList.add(cartList.get(i));
+			}
+		}
+
+		// 获取可用的优惠券信息，功能还示实现
+		List<NideshopUserCoupon> couponList = userCouponService.selectAll();
+
+		BigDecimal couponPrice = new BigDecimal(0);// 使用优惠券减免的金额
+		// 计算订单的费用
+		Map<String, Object> cartTotal = (Map<String, Object>) cartData.get("cartTotal");
+		BigDecimal goodsTotalPrice = (BigDecimal) cartTotal.get("checkedGoodsAmount");// 商品总价
+		BigDecimal orderTotalPrice = goodsTotalPrice.add(freightPrice).subtract(couponPrice);// 订单的总价
+		BigDecimal actualPrice = orderTotalPrice.subtract(new BigDecimal(0)); // 减去其它支付的金额后，要实际支付的金额
+
+		HashMap<String, Object> data = new HashMap<>();
+
+		System.out.println(JSON.toJSON(checkedAddress));
+		data.put("checkedAddress", checkedAddress);
+
+		data.put("freightPrice", freightPrice);
+		data.put("checkedCoupon", new HashMap<>());
+		data.put("couponList", couponList);
+		data.put("couponPrice", couponPrice);
+		data.put("checkedGoodsList", checkedGoodsList);
+		data.put("goodsTotalPrice", goodsTotalPrice);
+		data.put("orderTotalPrice", orderTotalPrice);
+		data.put("actualPrice", actualPrice);
+		result.setData(data);
 		return result;
 	}
 
