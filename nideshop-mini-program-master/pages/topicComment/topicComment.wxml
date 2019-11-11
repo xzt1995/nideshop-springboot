@@ -12,10 +12,10 @@
       <view class="imgs" wx:if="{{item.pic_list.length > 0}}">
         <image class="img" wx:for="{{item.pic_list}}" wx:key="{{pitem.id}}" wx:for-item="pitem" src="{{pitem.pic_url}}"></image>
       </view>
-      <!--<view class="customer-service" wx:if="{{item.commentReplyVO}}">
+      <view class="customer-service" wx:if="{{item.commentReplyVO}}">
         <text class="u">小选回复：</text>
         <text class="c">{{item.commentReplyVO.replyContent}}</text>
-      </view>-->
+      </view>
     </view>
 
   </view>

@@ -54,5 +54,10 @@ public interface CommentService {
 	 */
 	Comment getCommentInfo(NideshopComment hotComment);
 
+	/**
+	 * 发表评论
+	 * @return
+	 */
+    int postComment(int typeId , int valueId , String content,int userId )throws Exception;
 
 }

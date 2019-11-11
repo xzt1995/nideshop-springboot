@@ -1,12 +1,11 @@
 package com.newland.nideshopserver.service.impl;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,8 +19,8 @@ import com.newland.nideshopserver.model.dto.Comment;
 import com.newland.nideshopserver.model.dto.CountSelect;
 import com.newland.nideshopserver.service.CommentService;
 import com.newland.nideshopserver.utis.Utis;
-
 import tk.mybatis.mapper.entity.Example;
+
 
 /**
  * @author xzt @CREATE2019-10-15 14:17
@@ -162,4 +161,17 @@ public class CommentServiceImpl implements CommentService {
 		return comment;
 	}
 
+    @Override
+    public int postComment(int typeId, int valueId, String content,int userId ) throws Exception{
+	    NideshopComment comment = new NideshopComment();
+	    comment.setTypeId(typeId);
+	    comment.setValueId(valueId);
+	    comment.setContent(Utis.base64Encoder(content));
+	    comment.setUserId(userId);
+        comment.setAddTime(System.currentTimeMillis()/1000);
+        comment.setStatus(0);
+        comment.setNewContent("");
+        int insertId = commentMapper.insert(comment);
+        return insertId;
+    }
 }
