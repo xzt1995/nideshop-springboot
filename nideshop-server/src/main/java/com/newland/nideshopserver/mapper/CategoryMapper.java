@@ -14,13 +14,6 @@ import java.util.List;
  */
 @Repository
 public interface CategoryMapper extends MyMapper<NideshopCategory> {
-
-    @Select("SELECT * FROM `nideshop_category` WHERE ( `parent_id` = 0 ) AND ( `name` != '推荐' )")
-    List<NideshopCategory> listParentCategory();
-
-    @Select("SELECT `id` FROM `nideshop_category` WHERE ( `parent_id` = #{parentId} ) LIMIT 100;")
-    List<Integer> listSecondCategory(int parentId);
-
 	/**
 	 * @param categoryId
 	 * @return

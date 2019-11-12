@@ -1,7 +1,10 @@
 package com.newland.nideshopserver.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.newland.nideshopserver.mapper.CategoryMapper;
 import com.newland.nideshopserver.mapper.GoodsMapper;
+import com.newland.nideshopserver.model.NideshopCart;
 import com.newland.nideshopserver.model.NideshopCategory;
 import com.newland.nideshopserver.model.NideshopGoods;
 import com.newland.nideshopserver.model.dto.CategoryList;
@@ -28,19 +31,34 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryList> categoryList() {
 		// 1 获取商品的一级类别的ID集合
-		List<NideshopCategory> parentCategoryList = categoryMapper.listParentCategory();
+		Example e = new Example(NideshopCategory.class);
+		Criteria c = e.createCriteria();
+		c.andEqualTo("parentId",0);
+		c.andNotEqualTo("name","推荐");
+		List<NideshopCategory> parentCategoryList = categoryMapper.selectByExample(e);
 		ArrayList<CategoryList> categoryList = new ArrayList<>();
 		// 2 遍历ID集合，查出所有对应该父类别的二级类别信息categoryId集合
 		for (NideshopCategory categoryItem : parentCategoryList) {
 			CategoryList cl = new CategoryList();
 			int id = categoryItem.getId();
-			List<Integer> secondCategory = categoryMapper.listSecondCategory(id);
+			Example e1 = new Example(NideshopCategory.class);
+			e1.selectProperties("id");
+			Criteria c1 = e1.createCriteria();
+			c1.andEqualTo("parentId",id);
+			List<NideshopCategory> secondCategoryList = categoryMapper.selectByExample(e1);
+			List<Integer> secondCategory = new ArrayList<>();
+			for (NideshopCategory nideshopCategory : secondCategoryList) {
+				Integer id1 = nideshopCategory.getId();
+				secondCategory.add(id1);
+			}
+			//List<Integer> secondCategory = categoryMapper.listSecondCategory(id);
 			// 3 根据二级类别信息集合，去GOODS表中找到所有对应的信息，取前七个展示在首页
-			Example e = new Example(NideshopGoods.class);
-			e.selectProperties("id", "name", "listPicUrl", "retailPrice");
-			e.createCriteria().andIn("categoryId", secondCategory);
-			List<NideshopGoods> good = goodsMapper.selectByExample(e);
-			List<NideshopGoods> goods = good.subList(0, 7);
+			Example e3 = new Example(NideshopGoods.class);
+			e3.selectProperties("id", "name", "listPicUrl", "retailPrice");
+			e3.createCriteria().andIn("categoryId", secondCategory);
+			PageInfo<NideshopGoods> good = PageHelper.startPage(0, 7)
+					.doSelectPageInfo(() -> goodsMapper.selectByExample(e3));
+			List<NideshopGoods> goods = good.getList();
 			// 4 封装成DTO，便于前端展示
 			cl.setId(id);
 			cl.setName(categoryItem.getName());
@@ -75,8 +93,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Integer> selectSubCatetoryIds(Integer categoryId) {
-
-		return categoryMapper.listSecondCategory(categoryId);
+		Example e1 = new Example(NideshopCategory.class);
+		e1.selectProperties("id");
+		Criteria c1 = e1.createCriteria();
+		c1.andEqualTo("parentId",categoryId);
+		List<NideshopCategory> secondCategoryList = categoryMapper.selectByExample(e1);
+		List<Integer> secondCategory = new ArrayList<>();
+		for (NideshopCategory nideshopCategory : secondCategoryList) {
+			Integer id1 = nideshopCategory.getId();
+			secondCategory.add(id1);
+		}
+		return secondCategory;
 	}
 
 	@Override
