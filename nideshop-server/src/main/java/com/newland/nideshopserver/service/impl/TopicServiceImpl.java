@@ -1,5 +1,7 @@
 package com.newland.nideshopserver.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.newland.nideshopserver.mapper.TopicMapper;
 import com.newland.nideshopserver.model.NideshopTopic;
 import com.newland.nideshopserver.model.dto.CountSelect;
@@ -23,8 +25,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<NideshopTopic> listAllLimit3() {
-        List<NideshopTopic> list = topicMapper.selectAll();
-        list.subList(0, 3);
+        Example e = new Example(NideshopTopic.class);
+        Page<NideshopTopic> list = PageHelper.startPage(0, 3).doSelectPage(() -> topicMapper.selectByExample(e));
         return list;
     }
 
@@ -41,22 +43,20 @@ public class TopicServiceImpl implements TopicService {
         int count = topicMapper.selectCount(new NideshopTopic());
         // 总页数
         int totalPages = Utis.totalPages(count, size);
-        // 查询数据起始坐标
-        int begin = (size * page) - size;
-        List<NideshopTopic> list = topicMapper.selectTopic( begin,size);
-
+        Example e = new Example(NideshopTopic.class);
+        Page<NideshopTopic> list = PageHelper.startPage(page, size).doSelectPage(() -> topicMapper.selectByExample(e));
         CountSelect countSelect = new CountSelect();
         countSelect.setCount(count);
         countSelect.setCurrentPage(page);
         countSelect.setPageSize(size);
         countSelect.setTotalPages(totalPages);
         countSelect.setData(list);
-
         return countSelect;
     }
 
     /**
      * 专题详情
+     *
      * @param id
      * @return
      */
@@ -68,11 +68,13 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 关联专题（取前四个）
+     *
      * @return
      */
     @Override
     public List<NideshopTopic> relatedTopic() {
-        List<NideshopTopic> nideshopTopics = topicMapper.relatedTopic(4);
-        return nideshopTopics;
+        Example e = new Example(NideshopTopic.class);
+        Page<NideshopTopic> list = PageHelper.startPage(0, 4).doSelectPage(() -> topicMapper.selectByExample(e));
+        return list;
     }
 }
