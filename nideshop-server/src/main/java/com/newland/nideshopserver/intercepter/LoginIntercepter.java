@@ -48,9 +48,8 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
 		if (!controllers.contains(split[1]) && !actions.contains(path)) {
 
 			// 非公开路径，需要登录验证
-			NideshopUser userInfo = userService.findByToken(token);
 
-			if (token==null||userInfo == null) {
+			if (token==null||userService.findByToken(token) == null) {
 				log.info("用户未登录！");
 				Result result = new Result();
 				result.setErrno(ResultCode.NO_AUTH.val());

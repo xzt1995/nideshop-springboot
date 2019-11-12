@@ -63,8 +63,8 @@ public class AddressServiceImpl implements AddressService {
 
 		Example example = new Example(NideshopAddress.class);
 		Criteria c = example.createCriteria();
-		c.andEqualTo("id", id);
 		c.andEqualTo("userId", userId);
+		c.andNotEqualTo("id", id);
 		addressMapper.updateByExampleSelective(record, example);
 	}
 
@@ -74,6 +74,14 @@ public class AddressServiceImpl implements AddressService {
 		record.setUserId(userId);
 
 		return addressMapper.select(record);
+	}
+
+	@Override
+	public void delete(Integer id, Integer userId) {
+		NideshopAddress address = new NideshopAddress();
+		address.setId(id);
+		address.setUserId(userId);
+		addressMapper.delete(address);
 	}
 
 }

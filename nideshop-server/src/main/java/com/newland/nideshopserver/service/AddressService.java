@@ -43,4 +43,10 @@ public interface AddressService {
 	 * @return
 	 */
 	List<NideshopAddress> selectByUserId(Integer userId);
+
+	/**
+	 * @param id
+	 * @param userId
+	 */
+	void delete(Integer id, Integer userId);
 }

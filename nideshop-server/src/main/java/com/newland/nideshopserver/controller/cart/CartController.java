@@ -337,12 +337,15 @@ public class CartController {
 		Result result = new Result();
 		NideshopAddress checkedAddress = null;
 		// 选择的收货地址
-		if (addressId == null) {
+		if (addressId == null||addressId==0) {
+		
 			checkedAddress = addressService.findUserDefaultAddress(requestParamUtil.getUserId(request));
 		} else {
 			checkedAddress = addressService.findAddress(addressId, requestParamUtil.getUserId(request));
 		}
 
+		System.out.println(JSON.toJSON(checkedAddress));
+		
 		if (checkedAddress != null) {
 			checkedAddress.setProviceName(regionService.getRegionName(checkedAddress.getProvinceId()));
 			checkedAddress.setCityName(regionService.getRegionName(checkedAddress.getCityId()));
@@ -377,7 +380,10 @@ public class CartController {
 
 		HashMap<String, Object> data = new HashMap<>();
 
-		System.out.println(JSON.toJSON(checkedAddress));
+		if(checkedAddress==null) {
+			checkedAddress=new NideshopAddress();
+		}
+		
 		data.put("checkedAddress", checkedAddress);
 
 		data.put("freightPrice", freightPrice);
