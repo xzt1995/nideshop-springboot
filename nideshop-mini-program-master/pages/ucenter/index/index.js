@@ -64,7 +64,11 @@ Page({
     util.login().then((res) => {
       return util.request(api.AuthLoginByWeixin, {
         code: res,
-        userInfo: e.detail
+        rawData: e.detail.rawData, //用户非敏感信息
+        signature: e.detail.signature, //签名
+        encrypteData: e.detail.encryptedData, //用户敏感信息
+        iv: e.detail.iv //解密算法的向量
+        //userInfo: e.detail
       }, 'POST');
     }).then((res) => {
       console.log(res)

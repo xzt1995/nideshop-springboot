@@ -5,6 +5,7 @@ import com.newland.nideshopserver.model.dto.CategoryList;
 
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,11 +35,26 @@ public interface CategoryService {
 	 * @param e2
 	 * @return
 	 */
-	List<NideshopCategory> queryByExample(Example e2);
+	List queryByExample(Example e2);
 
 	/**
 	 * @param categoryId
 	 * @return
 	 */
 	List<Integer> selectSubCatetoryIds(Integer categoryId);
+	/**
+	 * @param categoryId
+	 * @return
+	 */
+	List<Integer> getChildCategoryId(Integer categoryId);
+	/**
+	 * @param categoryIds
+	 * @return
+	 */
+	List<Integer> getParentIdsBycategoryIds(List<Integer> categoryIds);
+	/**
+	 * @param parentIds
+	 * @return
+	 */
+	List<NideshopCategory> selectByIdList(List<Integer> parentIds);
 }

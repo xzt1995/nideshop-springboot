@@ -28,7 +28,8 @@ function request(url, data = {}, method = "GET") {
       data: data,
       method: method,
       header: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        //'Content-Type': 'application/json',
         'X-Nideshop-Token': wx.getStorageSync('token')
       },
       success: function(res) {
@@ -38,7 +39,6 @@ function request(url, data = {}, method = "GET") {
 
           if (res.data.errno == 401) {
             //需要登录后才可以操作
-            console.log("xzt")
             let code = null;
             return login().then((res) => {
               code = res.code;

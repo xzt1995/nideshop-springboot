@@ -19,7 +19,7 @@ public interface GoodsService {
     /**
 	 * @param e
 	 */
-    List<NideshopGoods> queryByExample(Example e);
+    List queryByExample(Example e);
     
 	/**
 	 * @param id
@@ -35,4 +35,23 @@ public interface GoodsService {
 	 * @param id
 	 */
 	List<NideshopProduct> getProductList(Integer goodsId);
+	/**
+	 * @param id
+	 * @return
+	 */
+	List<NideshopGoods> relatedGoods(Integer id);
+	/**
+	 * @param categoryId
+	 * @return
+	 */
+	List<NideshopGoods> selectByParentCategoryId(Integer categoryId);
+	/**
+	 * @return
+	 */
+	List<NideshopGoods> selectAll();
+	/**
+	 * @param goodsId
+	 * @return
+	 */
+	String getListPicUrl(Integer goodsId);
 }

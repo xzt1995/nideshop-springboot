@@ -37,6 +37,6 @@ public interface CommentMapper extends MyMapper<NideshopComment> {
      * 所有带图片的评论
      * @return
      */
-    @Select("select id , type_id as 'typeId' , value_id as 'valueId' , content , add_time as 'addTime' ,status , user_id as 'userId' , new_content as 'newContent' from 'nideshop_comment' where id in (select count(*) from `nideshop_comment` RIGHT JOIN `nideshop_comment_picture` on `nideshop_comment`.`id` = `nideshop_comment_picture`.`comment_id` WHERE ( `type_id` = #{typeId} ) AND ( `value_id` = #{valueId} ) LIMIT #{begin},#{end} )")
-    List<NideshopComment> picComment(int typeID, int valueId ,int begin , int end);
+    @Select("select id , type_id as 'typeId' , value_id as 'valueId' , content , add_time as 'addTime' ,status , user_id as 'userId' , new_content as 'newContent' from `nideshop_comment` where id in (select `nideshop_comment`.`id` from `nideshop_comment` RIGHT JOIN `nideshop_comment_picture` on `nideshop_comment`.`id` = `nideshop_comment_picture`.`comment_id` WHERE ( `type_id` = #{typeId} ) AND ( `value_id` = #{valueId} ) ) LIMIT #{begin},#{end}")
+    List<NideshopComment> picComment(@Param("typeId")int typeID, @Param("valueId")int valueId ,@Param("begin")int begin , @Param("end")int end);
 }

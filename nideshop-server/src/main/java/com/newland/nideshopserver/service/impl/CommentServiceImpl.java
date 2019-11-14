@@ -1,16 +1,14 @@
 package com.newland.nideshopserver.service.impl;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.github.pagehelper.ISelect;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.newland.nideshopserver.mapper.CommentMapper;
 import com.newland.nideshopserver.mapper.CommentPictureMapper;
 import com.newland.nideshopserver.mapper.UserMapper;
@@ -21,32 +19,38 @@ import com.newland.nideshopserver.model.dto.Comment;
 import com.newland.nideshopserver.model.dto.CountSelect;
 import com.newland.nideshopserver.service.CommentService;
 import com.newland.nideshopserver.utis.Utis;
-
 import tk.mybatis.mapper.entity.Example;
+
 
 /**
  * @author xzt @CREATE2019-10-15 14:17
  */
 @Service
 public class CommentServiceImpl implements CommentService {
-    @Autowired
-    private CommentMapper commentMapper;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private CommentPictureMapper commentPictureMapper;
+	@Autowired
+	private CommentMapper commentMapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private CommentPictureMapper commentPictureMapper;
 
-    @Override
-    public CountSelect listService(int typeId, int valueId, int size) throws Exception {
-        // page = (page > 0 ) ? page : 1 ;
+	@Override
+    public CountSelect listService(int typeId, int valueId, int size,Integer showType , Integer page) throws Exception {
+	    if (page == null){
+            page = 1 ;
+        }else {
+            page = (page > 0 ) ? page : 1 ;
+        }
+	    if (showType == null){
+	        showType = 0;
+        }else {
+            showType = (showType > 0 ) ? showType : 0 ;
+        }
         size = (size > 0) ? size : 20;
-        // showType = (showType > 0 ) ? showType : 0 ;
-        int page = 1;
-        int showType = 0;
         List<NideshopComment> commentList = null;
         // 当前topic评论总数
         int count = 0;
-        if (showType == 0) {
+        if (showType != 1) {
             // 全部评论数量
             count = commentMapper.commentCount(typeId, valueId);
             // 查询TOPIC所有评论数据（取前size个）
@@ -64,7 +68,8 @@ public class CommentServiceImpl implements CommentService {
         } else {
             // 带图片评论数量
             count = commentMapper.joinCommentCount(typeId, valueId);
-            commentList = commentMapper.picComment(typeId, valueId, page, size);
+            int begin = (size * page) - size;
+            commentList = commentMapper.picComment(typeId,valueId,begin,size);
         }
         ArrayList<Comment> list = new ArrayList<>();
         if (commentList != null) {
@@ -104,56 +109,69 @@ public class CommentServiceImpl implements CommentService {
         return countSelect;
     }
 
-    @Override
-    public int allCount(int typeId, int valueId) {
-        int count = commentMapper.commentCount(typeId, valueId);
-        return count;
-    }
+	@Override
+	public int allCount(int typeId, int valueId) {
+		int count = commentMapper.commentCount(typeId, valueId);
+		return count;
+	}
+
+	@Override
+	public int picCount(int typeId, int valueId) {
+		int count = commentMapper.joinCommentCount(typeId, valueId);
+		return count;
+	}
+
+	@Override
+	public NideshopComment getHotCommentByGoodsId(int typeId, int valueId) {
+		NideshopComment record = new NideshopComment();
+		record.setValueId(valueId);
+		record.setTypeId(typeId);
+		List<NideshopComment> list = commentMapper.select(record);
+		return list.size()>0?list.get(0):null;
+	}
+
+	@Override
+	public Comment getCommentInfo(NideshopComment hotComment) {
+
+		if(hotComment==null) {
+			return null;
+		}
+
+		Comment comment = new Comment();
+		NideshopUser user = new NideshopUser();
+		user.setId(hotComment.getUserId());
+		NideshopUser user2 = userMapper.selectOne(user);
+
+
+		try {
+			comment.setContent(Utis.base64Decoder(hotComment.getContent()));
+		} catch (Exception e) {
+			//TODO log err
+		}
+		comment.setAddTime(new Date(hotComment.getAddTime()*1000).toString());
+		comment.setNikename(user2.getNickname());
+		comment.setAvatar(user2.getAvatar());
+
+		NideshopCommentPicture pic=new NideshopCommentPicture();
+		pic.setCommentId(hotComment.getId());
+		List<NideshopCommentPicture> picList = commentPictureMapper.select(pic);
+
+		comment.setPicList(picList);
+
+		return comment;
+	}
 
     @Override
-    public int picCount(int typeId, int valueId) {
-        int count = commentMapper.joinCommentCount(typeId, valueId);
-        return count;
+    public int postComment(int typeId, int valueId, String content,int userId ) throws Exception{
+	    NideshopComment comment = new NideshopComment();
+	    comment.setTypeId(typeId);
+	    comment.setValueId(valueId);
+	    comment.setContent(Utis.base64Encoder(content));
+	    comment.setUserId(userId);
+        comment.setAddTime(System.currentTimeMillis()/1000);
+        comment.setStatus(0);
+        comment.setNewContent("");
+        int insertId = commentMapper.insert(comment);
+        return insertId;
     }
-
-    @Override
-    public NideshopComment getHotCommentByGoodsId(int typeId, int valueId) {
-        NideshopComment record = new NideshopComment();
-        record.setValueId(valueId);
-        record.setTypeId(typeId);
-
-        return commentMapper.selectOne(record);
-    }
-
-    @Override
-    public Comment getCommentInfo(NideshopComment hotComment) {
-
-        if (hotComment == null) {
-            return null;
-        }
-
-        Comment comment = new Comment();
-        NideshopUser user = new NideshopUser();
-        user.setId(hotComment.getUserId());
-        NideshopUser user2 = userMapper.selectOne(user);
-
-
-        try {
-            comment.setContent(Utis.base64Decoder(hotComment.getContent()));
-        } catch (Exception e) {
-            //TODO log err
-        }
-        comment.setAddTime(new Date(hotComment.getAddTime() * 1000).toString());
-        comment.setNikename(user2.getNickname());
-        comment.setAvatar(user2.getAvatar());
-
-        NideshopCommentPicture pic = new NideshopCommentPicture();
-        pic.setCommentId(hotComment.getId());
-        List<NideshopCommentPicture> picList = commentPictureMapper.select(pic);
-
-        comment.setPicList(picList);
-
-        return comment;
-    }
-
 }
