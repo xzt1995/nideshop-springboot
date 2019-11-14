@@ -51,7 +51,7 @@ Page({
       that.setData({
         checkedAllStatus: that.isCheckedAll()
       });
-    });
+    }).catch(res=>{});
   },
   isCheckedAll: function () {
     //判断购物车商品已全选

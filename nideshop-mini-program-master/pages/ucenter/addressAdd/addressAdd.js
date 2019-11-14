@@ -10,7 +10,7 @@ Page({
       district_id: 0,
       address: '',
       full_region: '',
-      name: '',
+      name: '11',
       mobile: '',
       is_default: 0
     },
@@ -61,7 +61,7 @@ Page({
           address: res.data
         });
       }
-    });
+    }).catch(res=>{});
   },
   setRegionDoneStatus() {
     let that = this;
@@ -266,7 +266,6 @@ Page({
   saveAddress(){
     console.log(this.data.address)
     let address = this.data.address;
-
     if (address.name == '') {
       util.showErrorToast('请输入姓名');
 
@@ -302,9 +301,8 @@ Page({
       is_default: address.is_default,
     }, 'POST').then(function (res) {
       if (res.errno === 0) {
-        wx.navigateTo({
-          url: '/pages/ucenter/address/address',
-        })
+        //返回上一个页面
+        wx.navigateBack();
       }
     });
 

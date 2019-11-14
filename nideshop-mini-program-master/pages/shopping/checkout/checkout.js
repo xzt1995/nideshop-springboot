@@ -11,14 +11,14 @@ Page({
     checkedCoupon: [],
     couponList: [],
     goodsTotalPrice: 0.00, //商品总价
-    freightPrice: 0.00,    //快递费
-    couponPrice: 0.00,     //优惠券的价格
-    orderTotalPrice: 0.00,  //订单总价
-    actualPrice: 0.00,     //实际需要支付的总价
+    freightPrice: 0.00, //快递费
+    couponPrice: 0.00, //优惠券的价格
+    orderTotalPrice: 0.00, //订单总价
+    actualPrice: 0.00, //实际需要支付的总价
     addressId: 0,
     couponId: 0
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
 
     // 页面初始化 options为页面跳转所带来的参数
 
@@ -42,9 +42,12 @@ Page({
 
 
   },
-  getCheckoutInfo: function () {
+  getCheckoutInfo: function() {
     let that = this;
-    util.request(api.CartCheckout, { addressId: that.data.addressId, couponId: that.data.couponId }).then(function (res) {
+    util.request(api.CartCheckout, {
+      addressId: that.data.addressId,
+      couponId: that.data.couponId
+    }).then(function(res) {
       if (res.errno === 0) {
         console.log(res.data);
         that.setData({
@@ -60,6 +63,8 @@ Page({
         });
       }
       wx.hideLoading();
+    }).catch(res => {
+      wx.hideLoading();
     });
   },
   selectAddress() {
@@ -72,11 +77,11 @@ Page({
       url: '/pages/shopping/addressAdd/addressAdd',
     })
   },
-  onReady: function () {
+  onReady: function() {
     // 页面渲染完成
 
   },
-  onShow: function () {
+  onShow: function() {
     // 页面显示
     wx.showLoading({
       title: '加载中...',
@@ -84,20 +89,23 @@ Page({
     this.getCheckoutInfo();
 
   },
-  onHide: function () {
+  onHide: function() {
     // 页面隐藏
 
   },
-  onUnload: function () {
+  onUnload: function() {
     // 页面关闭
 
   },
-  submitOrder: function () {
+  submitOrder: function() {
     if (this.data.addressId <= 0) {
       util.showErrorToast('请选择收货地址');
       return false;
     }
-    util.request(api.OrderSubmit, { addressId: this.data.addressId, couponId: this.data.couponId }, 'POST').then(res => {
+    util.request(api.OrderSubmit, {
+      addressId: this.data.addressId,
+      couponId: this.data.couponId
+    }, 'POST').then(res => {
       if (res.errno === 0) {
         const orderId = res.data.orderInfo.id;
         pay.payOrder(parseInt(orderId)).then(res => {

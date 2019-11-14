@@ -1,7 +1,7 @@
 <view class="add-address">
     <view class="add-form">
         <view class="form-item">
-            <input class="input" bindinput="bindinputName" placeholder="姓名" value="{{address.name}}" auto-focus/>
+            <input class="input" bindinput="bindinputName" placeholder="姓名" value="{{address.name}}" focus/>
         </view>
         <view class="form-item">
             <input class="input" bindinput="bindinputMobile" value="{{address.mobile}}" placeholder="手机号码"/>
@@ -37,3 +37,4 @@
     </view>
 </view>
 <view class="bg-mask" bindtap="cancelSelectRegion" wx:if="{{openSelectRegion}}"></view>
+ <!-- <input class="input" bindinput="bindinputName" placeholder="姓名" value="{{address.name}}" focus/> -->
