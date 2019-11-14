@@ -10,7 +10,7 @@ Page({
       district_id: 0,
       address: '',
       full_region: '',
-      name: '11',
+      name: '',
       mobile: '',
       is_default: 0
     },
@@ -266,32 +266,31 @@ Page({
   saveAddress(){
     console.log(this.data.address)
     let address = this.data.address;
-    if (address.name == '') {
+    if (!address.name) {
       util.showErrorToast('请输入姓名');
 
       return false;
     }
 
-    if (address.mobile == '') {
-      util.showErrorToast('请输入手机号码');
+    if (!address.mobile || address.mobile.length != 11) {
+      util.showErrorToast('请输入11位手机号');
       return false;
     }
 
 
-    if (address.district_id == 0) {
+    if (!address.district_id) {
       util.showErrorToast('请输入省市区');
       return false;
     }
 
-    if (address.address == '') {
+    if (!address.address) {
       util.showErrorToast('请输入详细地址');
       return false;
     }
-
-
+    
     let that = this;
     util.request(api.AddressSave, { 
-      id: address.id,
+      id: address.id||"",
       name: address.name,
       mobile: address.mobile,
       province_id: address.province_id,

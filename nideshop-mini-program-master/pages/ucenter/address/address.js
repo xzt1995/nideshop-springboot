@@ -7,6 +7,7 @@ Page({
     addressList: [],
   },
   onLoad: function (options) {
+    this.getAddressList();
   },
   onReady: function () {
     // 页面渲染完成
