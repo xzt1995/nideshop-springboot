@@ -37,7 +37,8 @@ Page({
     ],
     regionType: 1,
     regionList: [],
-    selectRegionDone: false
+    selectRegionDone: false,
+    flag:0 //是否强制设置默认值
   },
   bindinputMobile(event) {
     let address = this.data.address;
@@ -156,6 +157,11 @@ Page({
       });
       this.getAddressDetail();
     }
+    if(options.flag){
+       this.setData({
+         flag:options.flag
+       })
+    }
 
     this.getRegionList(1);
 
@@ -167,7 +173,6 @@ Page({
     let that = this;
     let regionTypeIndex = event.target.dataset.regionTypeIndex;
     let selectRegionList = that.data.selectRegionList;
-
     //判断是否可点击
     if (regionTypeIndex + 1 == this.data.regionType || (regionTypeIndex - 1 >= 0 && selectRegionList[regionTypeIndex - 1].id <= 0)) {
       return false;
@@ -191,8 +196,7 @@ Page({
     let regionType = regionItem.type;
     let selectRegionList = this.data.selectRegionList;
     selectRegionList[regionType - 1] = regionItem;
-
-
+   
     if (regionType != 3) {
       this.setData({
         selectRegionList: selectRegionList,
@@ -241,7 +245,6 @@ Page({
     if (this.data.selectRegionDone === false) {
       return false;
     }
-
     let address = this.data.address;
     let selectRegionList = this.data.selectRegionList;
     address.province_id = selectRegionList[0].id;
@@ -317,6 +320,11 @@ Page({
 
     if (!address.address) {
       util.showErrorToast('请输入详细地址');
+      return false;
+    }
+
+    if (this.data.flag === '1' && !address.is_default){
+      util.showErrorToast('请设置为默认地址');
       return false;
     }
 

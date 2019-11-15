@@ -74,7 +74,7 @@ Page({
   },
   addAddress() {
     wx.navigateTo({
-      url: '/pages/shopping/addressAdd/addressAdd',
+      url: '/pages/shopping/addressAdd/addressAdd?flag=1',
     })
   },
   onReady: function() {
