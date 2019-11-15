@@ -40,7 +40,7 @@ public class AddressController {
 			Integer city_id, Integer district_id, String address, Boolean is_default) {
 		Result result = new Result();
 		NideshopAddress nideshopAddress = new NideshopAddress();
-		// nideshopAddress.setId(id);
+		nideshopAddress.setId(id);
 		nideshopAddress.setName(name);
 		nideshopAddress.setMobile(mobile);
 		nideshopAddress.setProvinceId(province_id);
@@ -60,11 +60,11 @@ public class AddressController {
 
 		// 如果设置为默认，则取消其它的默认
 		if (is_default == true) {
-			addressService.resetOtherDefault(id, userId);
+			addressService.resetOtherDefault(nideshopAddress.getId(), userId);
 		}
 
-		NideshopAddress addressInfo = addressService.findAddress(id, null);
-		result.setData(addressInfo);
+		//NideshopAddress addressInfo = addressService.findAddress(id, null);
+		result.setData(nideshopAddress);
 		return result;
 
 	}
@@ -77,10 +77,10 @@ public class AddressController {
 
 		for (int i = 0; i < addressList.size(); i++) {
 			NideshopAddress nideshopAddress = addressList.get(i);
-			nideshopAddress.setProviceName(regionService.getRegionName(nideshopAddress.getProvinceId()));
+			nideshopAddress.setProvinceName(regionService.getRegionName(nideshopAddress.getProvinceId()));
 			nideshopAddress.setCityName(regionService.getRegionName(nideshopAddress.getCityId()));
 			nideshopAddress.setDistrictName(regionService.getRegionName(nideshopAddress.getDistrictId()));
-			nideshopAddress.setFullRegion(nideshopAddress.getProviceName() + nideshopAddress.getCityName()
+			nideshopAddress.setFullRegion(nideshopAddress.getProvinceName() + nideshopAddress.getCityName()
 					+ nideshopAddress.getDistrictName());
 		}
 
@@ -96,13 +96,18 @@ public class AddressController {
 		NideshopAddress nideshopAddress = addressService.findAddress(id, userId);
 
 		if (nideshopAddress != null) {
-			nideshopAddress.setProviceName(regionService.getRegionName(nideshopAddress.getProvinceId()));
+			nideshopAddress.setProvinceName(regionService.getRegionName(nideshopAddress.getProvinceId()));
 			nideshopAddress.setCityName(regionService.getRegionName(nideshopAddress.getCityId()));
 			nideshopAddress.setDistrictName(regionService.getRegionName(nideshopAddress.getDistrictId()));
-			nideshopAddress.setFullRegion(nideshopAddress.getProviceName() + nideshopAddress.getCityName()
+			nideshopAddress.setFullRegion(nideshopAddress.getProvinceName() + nideshopAddress.getCityName()
 					+ nideshopAddress.getDistrictName());
 
+		}else {
+			nideshopAddress=new NideshopAddress();
+			nideshopAddress.setIsDefault(0);
+			
 		}
+		
 		result.setData(nideshopAddress);
 		return result;
 	}

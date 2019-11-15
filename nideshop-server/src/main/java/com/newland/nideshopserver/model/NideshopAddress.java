@@ -30,7 +30,7 @@ public class NideshopAddress {
 	private String mobile;
 	private Integer isDefault;
 	@Transient
-	private String proviceName;
+	private String provinceName;
 	@Transient
 	private String cityName;
 	@Transient

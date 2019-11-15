@@ -347,11 +347,11 @@ public class CartController {
 		System.out.println(JSON.toJSON(checkedAddress));
 		
 		if (checkedAddress != null) {
-			checkedAddress.setProviceName(regionService.getRegionName(checkedAddress.getProvinceId()));
+			checkedAddress.setProvinceName(regionService.getRegionName(checkedAddress.getProvinceId()));
 			checkedAddress.setCityName(regionService.getRegionName(checkedAddress.getCityId()));
 			checkedAddress.setDistrictName(regionService.getRegionName(checkedAddress.getDistrictId()));
 			checkedAddress.setFullRegion(
-					checkedAddress.getProviceName() + checkedAddress.getCityName() + checkedAddress.getDistrictName());
+					checkedAddress.getProvinceName() + checkedAddress.getCityName() + checkedAddress.getDistrictName());
 
 		}
 
