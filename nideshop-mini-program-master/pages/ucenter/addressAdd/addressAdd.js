@@ -61,7 +61,7 @@ Page({
           address: res.data
         });
       }
-    });
+    }).catch(res=>{});
   },
   setRegionDoneStatus() {
     let that = this;
@@ -82,12 +82,13 @@ Page({
 
     //设置区域选择数据
     let address = this.data.address;
+    console.log("address", address, that.data.selectRegionList)
     if (address.province_id > 0 && address.city_id > 0 && address.district_id > 0) {
       let selectRegionList = this.data.selectRegionList;
       selectRegionList[0].id = address.province_id;
       selectRegionList[0].name = address.province_name;
-      selectRegionList[0].parent_id = 1;
-
+      selectRegionList[0].parent_id = 1; 
+      console.log("address.province_name", address.province_name)
       selectRegionList[1].id = address.city_id;
       selectRegionList[1].name = address.city_name;
       selectRegionList[1].parent_id = address.province_id;
@@ -137,7 +138,7 @@ Page({
     let that = this;
     let regionTypeIndex = event.target.dataset.regionTypeIndex;
     let selectRegionList = that.data.selectRegionList;
-
+    console.log("selectRegionType", selectRegionList, regionTypeIndex)
     //判断是否可点击
     if (regionTypeIndex + 1 == this.data.regionType || (regionTypeIndex - 1 >= 0 && selectRegionList[regionTypeIndex-1].id <= 0)) {
       return false;
@@ -240,6 +241,7 @@ Page({
   getRegionList(regionId) {
     let that = this;
     let regionType = that.data.regionType;
+    console.log("regionType", regionType, that.data.selectRegionList)
     util.request(api.RegionList, { parentId: regionId }).then(function (res) {
       if (res.errno === 0) {
         that.setData({
@@ -255,6 +257,7 @@ Page({
             return item;
           })
         });
+        console.log("getRegionList", that.data.regionList)
       }
     });
   },
@@ -266,33 +269,31 @@ Page({
   saveAddress(){
     console.log(this.data.address)
     let address = this.data.address;
-
-    if (address.name == '') {
+    if (!address.name) {
       util.showErrorToast('请输入姓名');
 
       return false;
     }
 
-    if (address.mobile == '') {
-      util.showErrorToast('请输入手机号码');
+    if (!address.mobile || address.mobile.length != 11) {
+      util.showErrorToast('请输入11位手机号');
       return false;
     }
 
 
-    if (address.district_id == 0) {
+    if (!address.district_id) {
       util.showErrorToast('请输入省市区');
       return false;
     }
 
-    if (address.address == '') {
+    if (!address.address) {
       util.showErrorToast('请输入详细地址');
       return false;
     }
-
-
+    
     let that = this;
     util.request(api.AddressSave, { 
-      id: address.id,
+      id: address.id||"",
       name: address.name,
       mobile: address.mobile,
       province_id: address.province_id,
@@ -302,9 +303,8 @@ Page({
       is_default: address.is_default,
     }, 'POST').then(function (res) {
       if (res.errno === 0) {
-        wx.navigateTo({
-          url: '/pages/ucenter/address/address',
-        })
+        //返回上一个页面
+        wx.navigateBack();
       }
     });
 
