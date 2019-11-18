@@ -10,6 +10,8 @@ import javax.persistence.*;
 import com.newland.nideshopserver.model.dto.HandleOption;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,18 +46,20 @@ public class NideshopOrder {
 	private BigDecimal IntegralMoney;
 	private BigDecimal orderPrice;
 	private BigDecimal goodsPrice;
-	private Integer addTime;
-	private Integer confirmTime;
-	private Integer payTime;
+	private Long addTime;
+	private Long confirmTime;
+	private Long payTime;
 	private Integer freightPrice;
 	private Integer couponId;
 	private Integer parentId;
 	private BigDecimal couponPrice;
-	private Integer callbackStatus;
+	private String callbackStatus;
 	@Transient
 	private Integer goodsCount;
 	@Transient
 	private String statusText;
 	@Transient
 	private HandleOption handleOption;
+	@Transient
+	private List<NideshopOrderGoods> nideshopOrderGoods;
 }

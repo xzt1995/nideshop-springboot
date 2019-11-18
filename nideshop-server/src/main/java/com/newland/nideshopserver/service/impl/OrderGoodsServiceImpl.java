@@ -1,7 +1,9 @@
 package com.newland.nideshopserver.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.newland.nideshopserver.model.NideshopCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +31,8 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 		return orderGoodsMapper.select(record);
 	}
 
+	@Override
+	public Integer addMany(List<NideshopOrderGoods> orderGoodsData) {
+		return orderGoodsMapper.insertList(orderGoodsData);
+	}
 }

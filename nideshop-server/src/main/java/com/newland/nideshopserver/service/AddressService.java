@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.newland.nideshopserver.model.NideshopAddress;
 
-/**  
- * @Description:    TODO(用一句话描述该文件做什么)   
- * @author: wangzb   
- * @date:   2019年11月7日 上午10:32:10   
- * @version V1.0 
+/**
+ * @Description:    TODO(用一句话描述该文件做什么)
+ * @author: wangzb
+ * @date:   2019年11月7日 上午10:32:10
+ * @version V1.0
  */
 public interface AddressService {
 
@@ -49,4 +49,7 @@ public interface AddressService {
 	 * @param userId
 	 */
 	void delete(Integer id, Integer userId);
+
+	NideshopAddress findByAddressId(int addressId);
+
 }

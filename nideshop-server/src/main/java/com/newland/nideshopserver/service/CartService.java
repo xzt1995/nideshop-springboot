@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.newland.nideshopserver.model.NideshopCart;
 
-/**  
- * @Description:    TODO(用一句话描述该文件做什么)   
- * @author: wangzb   
- * @date:   2019年10月18日 下午3:55:37   
- * @version V1.0 
+/**
+ * @Description:    TODO(用一句话描述该文件做什么)
+ * @author: wangzb
+ * @date:   2019年10月18日 下午3:55:37
+ * @version V1.0
  */
 public interface CartService {
 
@@ -22,7 +22,7 @@ public interface CartService {
 	/**
 	 * @param goodsId
 	 * @param productId
-	 * @param productId2 
+	 * @param productId2
 	 * @return
 	 */
 	NideshopCart getCartInfo(Integer goodsId, Integer productId, Integer productId2);
@@ -75,4 +75,7 @@ public interface CartService {
 	 */
 	void deleteProductIdIn(String[] productId);
 
+	List<NideshopCart> findCheckedCart(Integer userId, String sessionId , Integer check);
+
+	Integer deleteCheckedCart(Integer userId, String sessionId , Integer check);
 }

@@ -4,6 +4,7 @@ package com.newland.nideshopserver.utis;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author xzt
@@ -62,4 +63,19 @@ public class Utis {
         return result;
     }
 
+    /**
+     * 生成订单号
+     * @param date
+     * @return
+     */
+    public static String generateOrderNumber(Date date){
+        //生成六位随机数
+        Random random = new Random();
+        Integer x = random.nextInt(899999);
+        x = x+100000;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String s = sdf.format(new Date());
+        String id = s.concat(x.toString());
+        return id;
+    }
 }

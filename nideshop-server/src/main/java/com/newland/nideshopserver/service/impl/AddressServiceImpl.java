@@ -84,4 +84,12 @@ public class AddressServiceImpl implements AddressService {
 		addressMapper.delete(address);
 	}
 
+	@Override
+	public NideshopAddress findByAddressId(int addressId) {
+		Example e = new Example(NideshopAddress.class);
+		Criteria c = e.createCriteria();
+		c.andEqualTo("id",addressId);
+		NideshopAddress nideshopAddress = addressMapper.selectOneByExample(e);
+		return nideshopAddress;
+	}
 }

@@ -16,8 +16,11 @@ public enum ResultCode implements Serializable {
     FORBIDDEN(403,"未认证"),
     NULL(403,"禁止"),
     NOT_BIND(1234,"请先绑定手机号"),
-    NOT_FOUND(404,"未找到相应文件");
-
+    NOT_FOUND(404,"未找到相应文件"),
+    NO_GOODS(406,"请选择商品"),
+    NO_ADDRESS(405,"请选择地址"),
+    INSERT_ORDER_ERROR(407,"订单提交失败"),
+    NO_ORDER(408,"没有这个订单");
     private int val;
     private String msg;
 

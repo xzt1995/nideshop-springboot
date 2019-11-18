@@ -104,4 +104,27 @@ public class CartServiceImpl implements CartService {
 		criteria.andIn("productId", Arrays.asList(productId));
 		cartMapper.deleteByExample(example);
 	}
+
+
+	@Override
+	public List<NideshopCart> findCheckedCart(Integer userId, String sessionId, Integer check) {
+		Example example = new  Example(NideshopCart.class);
+		Criteria c = example.createCriteria();
+		c.andEqualTo("userId",userId);
+		c.andEqualTo("sessionId",1);
+		c.andEqualTo("checked",1);
+		List<NideshopCart> nideshopCarts = cartMapper.selectByExample(example);
+		return  nideshopCarts;
+	}
+
+	@Override
+	public Integer deleteCheckedCart(Integer userId, String sessionId, Integer check) {
+		Example example = new  Example(NideshopCart.class);
+		Criteria c = example.createCriteria();
+		c.andEqualTo("userId",userId);
+		c.andEqualTo("sessionId",1);
+		c.andEqualTo("checked",1);
+		Integer deleteId = cartMapper.deleteByExample(example);
+		return deleteId;
+	}
 }
