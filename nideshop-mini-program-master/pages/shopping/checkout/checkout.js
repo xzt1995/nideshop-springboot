@@ -106,6 +106,7 @@ Page({
       addressId: this.data.addressId,
       couponId: this.data.couponId
     }, 'POST').then(res => {
+      //todo 支付功能未完成
       if (res.errno === 0) {
         const orderId = res.data.orderInfo.id;
         pay.payOrder(parseInt(orderId)).then(res => {
@@ -117,7 +118,16 @@ Page({
             url: '/pages/payResult/payResult?status=0&orderId=' + orderId
           });
         });
-      } else {
+      }else if (res.errno===200){
+        wx.showToast({
+          title: res.errmsg,
+          duration:3000,
+          success:function(){
+            wx.navigateBack()
+          }
+        })
+      }
+       else {
         util.showErrorToast('下单失败');
       }
     });

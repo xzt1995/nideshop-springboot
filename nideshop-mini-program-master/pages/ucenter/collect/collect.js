@@ -16,7 +16,7 @@ Page({
         that.setData({
           collectList: res.data.data
         });
-      }
+      }     
     });
   },
   onLoad: function (options) {

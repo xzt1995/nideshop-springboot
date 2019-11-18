@@ -1,7 +1,7 @@
 <view class="container">
     <view class="order-info">
         <view class="item-a">下单时间：{{orderInfo.add_time}}</view>
-        <view class="item-b">订单编号：{{orderInfo.order_sn}}</view>
+        <view class="item-b">订单编号：{{data.orderInfo.order_sn}}</view>
         <view class="item-c">
             <view class="l">实付：<text class="cost">￥{{orderInfo.actual_price}}</text></view>
             <view class="r">
@@ -14,7 +14,7 @@
     <view class="order-goods">
         <view class="h">
             <view class="label">商品信息</view>
-            <view class="status">{{orderInfo.order_status_text}}</view>
+            <view class="status">{{orderInfo.status_text}}</view>
         </view>
         <view class="goods">
             <view class="item" wx:for="{{orderGoods}}" wx:key="{{item.id}}">
