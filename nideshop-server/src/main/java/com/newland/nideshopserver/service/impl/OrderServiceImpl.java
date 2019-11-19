@@ -252,6 +252,10 @@ public class OrderServiceImpl implements OrderService {
 		map.put("orderInfo",order);
 		map.put("orderGoods",orderGoods);
 		map.put("handleOption",handleOption);
-		return Result.build(ResultCode.SUCCESS.val(),ResultCode.SUCCESS.msg(),map);
+		Result result = new Result();
+		result.setData(map);
+		return result;
 	}
+
+
 }
