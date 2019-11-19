@@ -14,7 +14,7 @@
     <view class="order-goods">
         <view class="h">
             <view class="label">商品信息</view>
-            <view class="status">{{orderInfo.order_status_text}}</view>
+            <view class="status">{{orderInfo.status_text}}</view>
         </view>
         <view class="goods">
             <view class="item" wx:for="{{orderGoods}}" wx:key="{{item.id}}">

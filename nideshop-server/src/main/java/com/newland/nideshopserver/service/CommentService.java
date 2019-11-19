@@ -1,6 +1,7 @@
 package com.newland.nideshopserver.service;
 
 import com.newland.nideshopserver.model.NideshopComment;
+import com.newland.nideshopserver.model.dto.Comment;
 import com.newland.nideshopserver.model.dto.CountSelect;
 
 /**
@@ -17,7 +18,7 @@ public interface CommentService {
      * @param size 每页数量
      * @return
      */
-    CountSelect listService(int typeId, int valueId, int size) throws Exception;
+    CountSelect listService(int typeId, int valueId, int size,Integer showType , Integer page) throws Exception;
 
 
     /**
@@ -35,4 +36,28 @@ public interface CommentService {
      * @return
      */
     int picCount(int typeId , int valueId);
+
+
+	/**
+	 * 查看热门评论
+	 * @param typeId
+	 * @param valueId
+	 * @return
+	 */
+	NideshopComment getHotCommentByGoodsId(int typeId,int  valueId);
+
+
+	/**
+	 * 评论信息
+	 * @param hotComment
+	 * @return
+	 */
+	Comment getCommentInfo(NideshopComment hotComment);
+
+	/**
+	 * 发表评论
+	 * @return
+	 */
+    int postComment(int typeId , int valueId , String content,int userId )throws Exception;
+
 }

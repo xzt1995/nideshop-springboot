@@ -22,7 +22,7 @@ public class NideshopCollect {
     private Integer id;
     private Integer userId;
     private Integer valueId;
-    private Integer addTime;
+    private Long addTime;
     private Integer isAttention;
     private Integer typeId;
 }

@@ -1,10 +1,10 @@
 package com.newland.nideshopserver.utis;
 
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author xzt
@@ -59,8 +59,23 @@ public class Utis {
      * @return
      */
     public static  String timeFormat(Long time){
-        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000));
+        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time*1000));
         return result;
     }
 
+    /**
+     * 生成订单号
+     * @param date
+     * @return
+     */
+    public static String generateOrderNumber(Date date){
+        //生成六位随机数
+        Random random = new Random();
+        Integer x = random.nextInt(899999);
+        x = x+100000;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String s = sdf.format(new Date());
+        String id = s.concat(x.toString());
+        return id;
+    }
 }

@@ -1,7 +1,7 @@
 App({
   onLaunch: function () {
     try {
-      this.globalData.userInfo = JSON.parse(wx.getStorageSync('userInfo'));
+      this.globalData.userInfo = wx.getStorageSync('userInfo');
       this.globalData.token = wx.getStorageSync('token');
     } catch (e) {
       console.log(e);

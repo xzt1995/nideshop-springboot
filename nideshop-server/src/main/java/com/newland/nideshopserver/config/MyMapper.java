@@ -9,5 +9,5 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * 通用mapper框架使用的基本mapper类
  */
 public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
-    // 111
+    // 111111
 }

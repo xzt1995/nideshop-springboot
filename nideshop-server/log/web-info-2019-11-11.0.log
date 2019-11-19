@@ -1,0 +1,44 @@
+2019-11-11 15:43:49.677 [main] INFO  c.newland.nideshopserver.NideshopServerApplication - Starting NideshopServerApplication on DESKTOP-79PVM28 with PID 40908 (C:\Users\23647\git\nideshop-springboot\nideshop-server\target\classes started by 23647 in C:\Users\23647\git\nideshop-springboot\nideshop-server)
+2019-11-11 15:43:49.681 [main] INFO  c.newland.nideshopserver.NideshopServerApplication - No active profile set, falling back to default profiles: default
+2019-11-11 15:43:51.478 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-11-11 15:43:51.482 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-11-11 15:43:51.630 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 125ms. Found 0 repository interfaces.
+2019-11-11 15:43:52.115 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$58b69901] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-11-11 15:43:53.541 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8360 (http)
+2019-11-11 15:43:53.577 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8360"]
+2019-11-11 15:43:53.595 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2019-11-11 15:43:53.595 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-11-11 15:43:53.611 [main] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_172\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_172/bin/server;C:/Program Files/Java/jre1.8.0_172/bin;C:/Program Files/Java/jre1.8.0_172/lib/amd64;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Go\gohome\bin;C:\Go\gcc\mingw64\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Java\nodejs\;C:\ProgramData\chocolatey\bin;C:\Git\cmd;C:\Users\23647\AppData\Local\Microsoft\WindowsApps;;C:\Program Files (x86)\SSH Communications Security\SSH Secure Shell;C:\Users\23647\AppData\Roaming\npm;C:\apache-maven-3.3.9-bin\eclipse;;.]
+2019-11-11 15:43:53.917 [main] INFO  o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2019-11-11 15:43:53.918 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 4171 ms
+2019-11-11 15:43:56.184 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-11 15:43:56.410 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2019-11-11 15:43:56.412 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2019-11-11 15:43:56.414 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2019-11-11 15:43:56.415 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
+2019-11-11 15:43:57.158 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8360"]
+2019-11-11 15:43:57.224 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8360 (http) with context path '/api'
+2019-11-11 15:43:57.230 [main] INFO  c.newland.nideshopserver.NideshopServerApplication - Started NideshopServerApplication in 8.423 seconds (JVM running for 9.0)
+2019-11-11 15:44:10.836 [http-nio-8360-exec-2] INFO  o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-11-11 15:44:10.837 [http-nio-8360-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2019-11-11 15:44:10.851 [http-nio-8360-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 13 ms
+2019-11-11 15:44:10.885 [http-nio-8360-exec-2] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:44:10.885 [http-nio-8360-exec-1] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:44:10.886 [http-nio-8360-exec-2] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/goods/count
+2019-11-11 15:44:10.886 [http-nio-8360-exec-1] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/index/index
+2019-11-11 15:44:10.976 [http-nio-8360-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2019-11-11 15:44:11.237 [http-nio-8360-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2019-11-11 15:44:42.769 [http-nio-8360-exec-5] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:44:42.771 [http-nio-8360-exec-6] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:44:42.772 [http-nio-8360-exec-5] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/goods/detail
+2019-11-11 15:44:42.773 [http-nio-8360-exec-6] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/cart/goodscount
+2019-11-11 15:44:42.798 [http-nio-8360-exec-6] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - 用户未登录！
+2019-11-11 15:44:43.009 [http-nio-8360-exec-5] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:44:43.010 [http-nio-8360-exec-5] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/error
+2019-11-11 15:47:45.339 [http-nio-8360-exec-8] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:47:45.341 [http-nio-8360-exec-8] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/goods/detail
+2019-11-11 15:47:45.376 [http-nio-8360-exec-9] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:47:45.378 [http-nio-8360-exec-9] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/cart/goodscount
+2019-11-11 15:47:45.396 [http-nio-8360-exec-9] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - 用户未登录！
+2019-11-11 15:47:45.992 [http-nio-8360-exec-10] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------
+2019-11-11 15:47:45.993 [http-nio-8360-exec-10] INFO  c.n.nideshopserver.intercepter.LoginIntercepter - ----------------登录拦截器--------------拦截路径:/goods/related

@@ -1,7 +1,11 @@
 package com.newland.nideshopserver.service;
 
+import com.newland.nideshopserver.model.NideshopCategory;
 import com.newland.nideshopserver.model.dto.CategoryList;
 
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,5 +18,43 @@ public interface CategoryService {
      * @return
      */
     List<CategoryList> categoryList();
+    /**
+     * 根据id查询分类
+     * @param id
+     * @return
+     */
+    NideshopCategory getById(Integer id);
 
+	/**
+	 * 根据父类id查找子分类
+	 * @param parentId
+	 */
+	List<NideshopCategory> selectByParentId(Integer parentId);
+
+	/**
+	 * @param e2
+	 * @return
+	 */
+	List queryByExample(Example e2);
+
+	/**
+	 * @param categoryId
+	 * @return
+	 */
+	List<Integer> selectSubCatetoryIds(Integer categoryId);
+	/**
+	 * @param categoryId
+	 * @return
+	 */
+	List<Integer> getChildCategoryId(Integer categoryId);
+	/**
+	 * @param categoryIds
+	 * @return
+	 */
+	List<Integer> getParentIdsBycategoryIds(List<Integer> categoryIds);
+	/**
+	 * @param parentIds
+	 * @return
+	 */
+	List<NideshopCategory> selectByIdList(List<Integer> parentIds);
 }
