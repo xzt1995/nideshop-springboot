@@ -83,7 +83,7 @@ public class GoodsController<E> {
 
 	/**
 	 * 首页搜索框显示的宝贝总数
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping("/goods/count")
@@ -135,7 +135,7 @@ public class GoodsController<E> {
 				history.setUserId(id.toString());
 			}
 			history.setKeyword(keywords);
-			history.setAddTime((int) (new Date().getTime() / 1000));
+			history.setAddTime((int) (System.currentTimeMillis()/ 1000));
 			searchHistoryService.add(history);
 		}
 

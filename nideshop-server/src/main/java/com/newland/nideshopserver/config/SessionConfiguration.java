@@ -14,11 +14,11 @@ import com.newland.nideshopserver.intercepter.LoginIntercepter;
 public class SessionConfiguration extends WebMvcConfigurerAdapter {
 
 	@Autowired
-	private LoginIntercepter LoginIntercepter;
+	private LoginIntercepter loginIntercepter;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 拦截所有请求
-		registry.addInterceptor(LoginIntercepter).addPathPatterns("/**");
+		registry.addInterceptor(loginIntercepter).addPathPatterns("/**");
 	}
 }

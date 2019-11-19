@@ -42,8 +42,8 @@ public class NideshopOrder {
 	private String payName;
 	private Integer payId;
 	private BigDecimal actualPrice;
-	private Integer Integral;
-	private BigDecimal IntegralMoney;
+	private Integer integral;
+	private BigDecimal integralMoney;
 	private BigDecimal orderPrice;
 	private BigDecimal goodsPrice;
 	private Long addTime;
