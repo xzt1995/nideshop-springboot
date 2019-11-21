@@ -51,7 +51,6 @@ public class CategoryServiceImpl implements CategoryService {
 				Integer id1 = nideshopCategory.getId();
 				secondCategory.add(id1);
 			}
-			//List<Integer> secondCategory = categoryMapper.listSecondCategory(id);
 			// 3 根据二级类别信息集合，去GOODS表中找到所有对应的信息，取前七个展示在首页
 			Example e3 = new Example(NideshopGoods.class);
 			e3.selectProperties("id", "name", "listPicUrl", "retailPrice");
@@ -118,14 +117,14 @@ public class CategoryServiceImpl implements CategoryService {
 		criteria2.andIn("id", categoryIds);
 
 		@SuppressWarnings("unchecked")
-		List<NideshopCategory> ParentCategorys = categoryMapper.selectByExample(e2);
-		int listSize2 = ParentCategorys.size();
+		List<NideshopCategory> parentCategorys = categoryMapper.selectByExample(e2);
+		int listSize2 = parentCategorys.size();
 		if (listSize2 > 10000) {
 			listSize2 = 10000;
 		}
 		ArrayList<Integer> parentIds = new ArrayList<>();
 		for (int i = 0; i < listSize2; i++) {
-			parentIds.add(ParentCategorys.get(i).getParentId());
+			parentIds.add(parentCategorys.get(i).getParentId());
 		}
 		return parentIds;
 	}

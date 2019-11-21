@@ -36,18 +36,18 @@ public class AddressController {
 	 * 添加或更新收货地址
 	 */
 	@RequestMapping("address/save")
-	public Result save(HttpServletRequest request, Integer id, String name, String mobile, Integer province_id,
-			Integer city_id, Integer district_id, String address, Boolean is_default) {
+	public Result save(HttpServletRequest request, Integer id, String name, String mobile, Integer provinceId,
+			Integer cityId, Integer districtId, String address, Boolean isDefault) {
 		Result result = new Result();
 		NideshopAddress nideshopAddress = new NideshopAddress();
 		nideshopAddress.setId(id);
 		nideshopAddress.setName(name);
 		nideshopAddress.setMobile(mobile);
-		nideshopAddress.setProvinceId(province_id);
-		nideshopAddress.setCityId(city_id);
-		nideshopAddress.setDistrictId(district_id);
+		nideshopAddress.setProvinceId(provinceId);
+		nideshopAddress.setCityId(cityId);
+		nideshopAddress.setDistrictId(districtId);
 		nideshopAddress.setAddress(address);
-		nideshopAddress.setIsDefault(is_default == true ? 1 : 0);
+		nideshopAddress.setIsDefault(isDefault == true ? 1 : 0);
 
 		Integer userId = requestParamParseUtil.getUserId(request);
 		if (id == null || id == 0) {
@@ -59,11 +59,10 @@ public class AddressController {
 		}
 
 		// 如果设置为默认，则取消其它的默认
-		if (is_default == true) {
+		if (isDefault == true) {
 			addressService.resetOtherDefault(nideshopAddress.getId(), userId);
 		}
 
-		//NideshopAddress addressInfo = addressService.findAddress(id, null);
 		result.setData(nideshopAddress);
 		return result;
 
@@ -105,9 +104,9 @@ public class AddressController {
 		}else {
 			nideshopAddress=new NideshopAddress();
 			nideshopAddress.setIsDefault(0);
-			
+
 		}
-		
+
 		result.setData(nideshopAddress);
 		return result;
 	}
@@ -115,10 +114,10 @@ public class AddressController {
 	public Result delete(Integer id, HttpServletRequest request) {
 		Result result = new Result();
 		Integer userId = requestParamParseUtil.getUserId(request);
-		
+
 		addressService.delete(id,userId);
 		result.setData("删除成功");
 		return result;
 	}
-	
+
 }

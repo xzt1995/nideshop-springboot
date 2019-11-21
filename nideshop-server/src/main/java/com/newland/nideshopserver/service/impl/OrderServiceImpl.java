@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderId;
 	}
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Result submit(int addressId, int couponId, String postscript, int userId) {
 

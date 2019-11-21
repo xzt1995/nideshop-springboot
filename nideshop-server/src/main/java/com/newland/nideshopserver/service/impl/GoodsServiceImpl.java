@@ -83,7 +83,7 @@ public class GoodsServiceImpl implements GoodsService {
 				hasSpecificationList.put(specItem.getSpecificationId(), specItem);
 			} else {
 				for (int j = 0; j < specificationList.size(); j++) {
-					if (specificationList.get(j).getSpecificationId() == specItem.getSpecificationId()) {
+					if (specificationList.get(j).getSpecificationId().equals(specItem.getSpecificationId())) {
 						specificationList.get(j).getValueList().add(specItem);
 					}
 				}
@@ -112,8 +112,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<NideshopGoods> selectByParentCategoryId(Integer categoryId) {
-		
-		
+
+
 		return goodsMapper.selectByParentCategoryId(categoryId);
 	}
 

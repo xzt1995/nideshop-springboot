@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * @CREATE2019-11-19 10:23
  */
 @RestController
-public class searchController {
+public class SearchController {
 
     @Autowired
     private KeywordsService keywordsService;
