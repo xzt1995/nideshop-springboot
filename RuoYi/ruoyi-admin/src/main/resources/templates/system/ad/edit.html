@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改首页轮播广告')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-ad-edit" th:object="${nideshopAd}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">adPositionId（默认为1）：</label>
+                <div class="col-sm-8">
+                    <input name="adPositionId" th:field="*{adPositionId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">mediaType：</label>
+                <div class="col-sm-8">
+                    <input name="mediaType" th:field="*{mediaType}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">link：</label>
+                <div class="col-sm-8">
+                    <input name="link" th:field="*{link}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图片链接：</label>
+                <div class="col-sm-8">
+                    <input name="imageUrl" th:field="*{imageUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <input name="content" th:field="*{content}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">endTime：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" th:field="*{endTime}" class="form-control" type="text" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">enabled：</label>
+                <div class="col-sm-8">
+                    <input name="enabled" th:field="*{enabled}" class="form-control" type="text" >
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/ad";
+        $("#form-ad-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-ad-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

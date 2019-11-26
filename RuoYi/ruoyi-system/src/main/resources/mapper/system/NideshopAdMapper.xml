@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopAdMapper">
+
+    <resultMap type="NideshopAd" id="NideshopAdResult">
+        <result property="id"    column="id"    />
+        <result property="adPositionId"    column="ad_position_id"    />
+        <result property="mediaType"    column="media_type"    />
+        <result property="name"    column="name"    />
+        <result property="link"    column="link"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="content"    column="content"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="enabled"    column="enabled"    />
+    </resultMap>
+
+    <sql id="selectNideshopAdVo">
+        select id, ad_position_id, media_type, name, link, image_url, content, end_time, enabled from nideshop_ad
+    </sql>
+
+    <select id="selectNideshopAdList" parameterType="NideshopAd" resultMap="NideshopAdResult">
+        <include refid="selectNideshopAdVo"/>
+        <where>
+            <if test="adPositionId != null "> and ad_position_id = #{adPositionId}</if>
+            <if test="mediaType != null "> and media_type = #{mediaType}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="link != null  and link != ''"> and link = #{link}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and image_url = #{imageUrl}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="enabled != null "> and enabled = #{enabled}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopAdById" parameterType="Integer" resultMap="NideshopAdResult">
+        <include refid="selectNideshopAdVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopAd" parameterType="NideshopAd" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_ad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adPositionId != null ">ad_position_id,</if>
+            <if test="mediaType != null ">media_type,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="link != null  and link != ''">link,</if>
+            <if test="imageUrl != null  and imageUrl != ''">image_url,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="enabled != null ">enabled,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adPositionId != null ">#{adPositionId},</if>
+            <if test="mediaType != null ">#{mediaType},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="link != null  and link != ''">#{link},</if>
+            <if test="imageUrl != null  and imageUrl != ''">#{imageUrl},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="enabled != null ">#{enabled},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopAd" parameterType="NideshopAd">
+        update nideshop_ad
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adPositionId != null ">ad_position_id = #{adPositionId},</if>
+            <if test="mediaType != null ">media_type = #{mediaType},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="link != null  and link != ''">link = #{link},</if>
+            <if test="imageUrl != null  and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="enabled != null ">enabled = #{enabled},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopAdById" parameterType="Integer">
+        delete from nideshop_ad where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopAdByIds" parameterType="String">
+        delete from nideshop_ad where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改商品专题')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-topic-edit" th:object="${nideshopTopic}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">标题：</label>
+                <div class="col-sm-8">
+                    <input name="title" th:field="*{title}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <input name="content" th:field="*{content}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">头像图片链接：</label>
+                <div class="col-sm-8">
+                    <input name="avatar" th:field="*{avatar}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目图片：</label>
+                <div class="col-sm-8">
+                    <input name="itemPicUrl" th:field="*{itemPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目简介：</label>
+                <div class="col-sm-8">
+                    <input name="subtitle" th:field="*{subtitle}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">${comment}：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="topicCategoryId" th:field="*{topicCategoryId}" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">价格信息：</label>
+                <div class="col-sm-8">
+                    <input name="priceInfo" th:field="*{priceInfo}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">${comment}：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="readCount" th:field="*{readCount}" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">场景图片网址：</label>
+                <div class="col-sm-8">
+                    <input name="scenePicUrl" th:field="*{scenePicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">${comment}：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="topicTemplateId" th:field="*{topicTemplateId}" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">${comment}：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="topicTagId" th:field="*{topicTagId}" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">排序：</label>
+                <div class="col-sm-8">
+                    <input name="sortOrder" th:field="*{sortOrder}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">${comment}：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="isShow" th:field="*{isShow}" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/topic";
+        $("#form-topic-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-topic-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
