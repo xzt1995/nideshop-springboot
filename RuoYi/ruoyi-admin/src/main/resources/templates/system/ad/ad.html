@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('首页轮播广告列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <!--<li>-->
+                                <!--<p>adPositionId：</p>-->
+                                <!--<input type="text" name="adPositionId"/>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<p>mediaType：</p>-->
+                                <!--<select name="mediaType" th:with="type=${@dict.getType('')}">-->
+                                    <!--<option value="">所有</option>-->
+                                    <!--<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
+                                <!--</select>-->
+                            <!--</li>-->
+                            <li>
+                                <p>名称：</p>
+                                <input type="text" name="name"/>
+                            </li>
+                            <!--<li>-->
+                                <!--<p>${comment}：</p>-->
+                                <!--<input type="text" name="link"/>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<p>${comment}：</p>-->
+                                <!--<input type="text" name="imageUrl"/>-->
+                            <!--</li>-->
+                            <li>
+                                <p>内容：</p>
+                                <input type="text" name="content"/>
+                            </li>
+                            <!--<li>-->
+                                <!--<p>${comment}：</p>-->
+                                <!--<input type="text" name="endTime"/>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<p>${comment}：</p>-->
+                                <!--<input type="text" name="enabled"/>-->
+                            <!--</li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:ad:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:ad:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:ad:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:ad:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:ad:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:ad:remove')}]];
+        var prefix = ctx + "system/ad";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "首页轮播广告",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id',
+                    title : 'null',
+                    visible: false
+                },
+                {
+                    field : 'adPositionId',
+                    title : 'adPositionId'
+                },
+                {
+                    field : 'mediaType',
+                    title : 'mediaType'
+                },
+                {
+                    field : 'name',
+                    title : '名称'
+                },
+                // {
+                //     field : 'link',
+                //     title : 'link'
+                // },
+                {
+                    field : 'imageUrl',
+                    title : '图片链接'
+                },
+                {
+                    field : 'content',
+                    title : '内容'
+                },
+                // {
+                //     field : 'endTime',
+                //     title : 'endTime'
+                // },
+                // {
+                //     field : 'enabled',
+                //     title : 'enabled'
+                // },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

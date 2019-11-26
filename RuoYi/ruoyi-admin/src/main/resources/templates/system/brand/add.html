@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增商城品牌列')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-brand-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">listPicUrl：</label>
+                <div class="col-sm-8">
+                    <input name="listPicUrl" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">简介：</label>
+                <div class="col-sm-8">
+                    <input name="simpleDesc" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图片链接：</label>
+                <div class="col-sm-8">
+                    <input name="picUrl" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">sortOrder：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="sortOrder" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">isShow：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="isShow" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">最低价：</label>
+                <div class="col-sm-8">
+                    <input name="floorPrice" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">appListPicUrl：</label>
+                <div class="col-sm-8">
+                    <input name="appListPicUrl" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">isNew：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="isNew" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">新图片链接：</label>
+                <div class="col-sm-8">
+                    <input name="newPicUrl" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3 control-label">newSortOrder：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="newSortOrder" class="form-control" type="text" required>-->
+                <!--</div>-->
+            <!--</div>-->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/brand"
+        $("#form-brand-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-brand-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

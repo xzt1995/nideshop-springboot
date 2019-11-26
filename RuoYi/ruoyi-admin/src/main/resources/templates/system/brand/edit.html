@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改商城品牌列')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-brand-edit" th:object="${nideshopBrand}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">listPicUrl：</label>
+                <div class="col-sm-8">
+                    <input name="listPicUrl" th:field="*{listPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">简介：</label>
+                <div class="col-sm-8">
+                    <input name="simpleDesc" th:field="*{simpleDesc}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图片链接：</label>
+                <div class="col-sm-8">
+                    <input name="picUrl" th:field="*{picUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">sortOrder：</label>
+                <div class="col-sm-8">
+                    <input name="sortOrder" th:field="*{sortOrder}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">isShow：</label>
+                <div class="col-sm-8">
+                    <input name="isShow" th:field="*{isShow}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">最低价：</label>
+                <div class="col-sm-8">
+                    <input name="floorPrice" th:field="*{floorPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">appListPicUrl：</label>
+                <div class="col-sm-8">
+                    <input name="appListPicUrl" th:field="*{appListPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">isNew：</label>
+                <div class="col-sm-8">
+                    <input name="isNew" th:field="*{isNew}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">newPicUrl：</label>
+                <div class="col-sm-8">
+                    <input name="newPicUrl" th:field="*{newPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">newSortOrder：</label>
+                <div class="col-sm-8">
+                    <input name="newSortOrder" th:field="*{newSortOrder}" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/brand";
+        $("#form-brand-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-brand-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

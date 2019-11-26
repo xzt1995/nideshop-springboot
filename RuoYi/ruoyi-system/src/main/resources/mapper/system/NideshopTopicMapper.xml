@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopTopicMapper">
+
+    <resultMap type="NideshopTopic" id="NideshopTopicResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="itemPicUrl"    column="item_pic_url"    />
+        <result property="subtitle"    column="subtitle"    />
+        <result property="topicCategoryId"    column="topic_category_id"    />
+        <result property="priceInfo"    column="price_info"    />
+        <result property="readCount"    column="read_count"    />
+        <result property="scenePicUrl"    column="scene_pic_url"    />
+        <result property="topicTemplateId"    column="topic_template_id"    />
+        <result property="topicTagId"    column="topic_tag_id"    />
+        <result property="sortOrder"    column="sort_order"    />
+        <result property="isShow"    column="is_show"    />
+    </resultMap>
+
+    <sql id="selectNideshopTopicVo">
+        select id, title, content, avatar, item_pic_url, subtitle, topic_category_id, price_info, read_count, scene_pic_url, topic_template_id, topic_tag_id, sort_order, is_show from nideshop_topic
+    </sql>
+
+    <select id="selectNideshopTopicList" parameterType="NideshopTopic" resultMap="NideshopTopicResult">
+        <include refid="selectNideshopTopicVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="itemPicUrl != null  and itemPicUrl != ''"> and item_pic_url = #{itemPicUrl}</if>
+            <if test="subtitle != null  and subtitle != ''"> and subtitle = #{subtitle}</if>
+            <if test="topicCategoryId != null "> and topic_category_id = #{topicCategoryId}</if>
+            <if test="priceInfo != null "> and price_info = #{priceInfo}</if>
+            <if test="readCount != null  and readCount != ''"> and read_count = #{readCount}</if>
+            <if test="scenePicUrl != null  and scenePicUrl != ''"> and scene_pic_url = #{scenePicUrl}</if>
+            <if test="topicTemplateId != null "> and topic_template_id = #{topicTemplateId}</if>
+            <if test="topicTagId != null "> and topic_tag_id = #{topicTagId}</if>
+            <if test="sortOrder != null "> and sort_order = #{sortOrder}</if>
+            <if test="isShow != null "> and is_show = #{isShow}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopTopicById" parameterType="Integer" resultMap="NideshopTopicResult">
+        <include refid="selectNideshopTopicVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopTopic" parameterType="NideshopTopic" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="itemPicUrl != null  and itemPicUrl != ''">item_pic_url,</if>
+            <if test="subtitle != null  and subtitle != ''">subtitle,</if>
+            <if test="topicCategoryId != null ">topic_category_id,</if>
+            <if test="priceInfo != null ">price_info,</if>
+            <if test="readCount != null  and readCount != ''">read_count,</if>
+            <if test="scenePicUrl != null  and scenePicUrl != ''">scene_pic_url,</if>
+            <if test="topicTemplateId != null ">topic_template_id,</if>
+            <if test="topicTagId != null ">topic_tag_id,</if>
+            <if test="sortOrder != null ">sort_order,</if>
+            <if test="isShow != null ">is_show,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="itemPicUrl != null  and itemPicUrl != ''">#{itemPicUrl},</if>
+            <if test="subtitle != null  and subtitle != ''">#{subtitle},</if>
+            <if test="topicCategoryId != null ">#{topicCategoryId},</if>
+            <if test="priceInfo != null ">#{priceInfo},</if>
+            <if test="readCount != null  and readCount != ''">#{readCount},</if>
+            <if test="scenePicUrl != null  and scenePicUrl != ''">#{scenePicUrl},</if>
+            <if test="topicTemplateId != null ">#{topicTemplateId},</if>
+            <if test="topicTagId != null ">#{topicTagId},</if>
+            <if test="sortOrder != null ">#{sortOrder},</if>
+            <if test="isShow != null ">#{isShow},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopTopic" parameterType="NideshopTopic">
+        update nideshop_topic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="avatar != null  and avatar != ''">avatar = #{avatar},</if>
+            <if test="itemPicUrl != null  and itemPicUrl != ''">item_pic_url = #{itemPicUrl},</if>
+            <if test="subtitle != null  and subtitle != ''">subtitle = #{subtitle},</if>
+            <if test="topicCategoryId != null ">topic_category_id = #{topicCategoryId},</if>
+            <if test="priceInfo != null ">price_info = #{priceInfo},</if>
+            <if test="readCount != null  and readCount != ''">read_count = #{readCount},</if>
+            <if test="scenePicUrl != null  and scenePicUrl != ''">scene_pic_url = #{scenePicUrl},</if>
+            <if test="topicTemplateId != null ">topic_template_id = #{topicTemplateId},</if>
+            <if test="topicTagId != null ">topic_tag_id = #{topicTagId},</if>
+            <if test="sortOrder != null ">sort_order = #{sortOrder},</if>
+            <if test="isShow != null ">is_show = #{isShow},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopTopicById" parameterType="Integer">
+        delete from nideshop_topic where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopTopicByIds" parameterType="String">
+        delete from nideshop_topic where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

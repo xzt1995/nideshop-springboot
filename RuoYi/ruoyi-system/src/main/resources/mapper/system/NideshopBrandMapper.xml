@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopBrandMapper">
+
+    <resultMap type="NideshopBrand" id="NideshopBrandResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="listPicUrl"    column="list_pic_url"    />
+        <result property="simpleDesc"    column="simple_desc"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="sortOrder"    column="sort_order"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="floorPrice"    column="floor_price"    />
+        <result property="appListPicUrl"    column="app_list_pic_url"    />
+        <result property="isNew"    column="is_new"    />
+        <result property="newPicUrl"    column="new_pic_url"    />
+        <result property="newSortOrder"    column="new_sort_order"    />
+    </resultMap>
+
+    <sql id="selectNideshopBrandVo">
+        select id, name, list_pic_url, simple_desc, pic_url, sort_order, is_show, floor_price, app_list_pic_url, is_new, new_pic_url, new_sort_order from nideshop_brand
+    </sql>
+
+    <select id="selectNideshopBrandList" parameterType="NideshopBrand" resultMap="NideshopBrandResult">
+        <include refid="selectNideshopBrandVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="listPicUrl != null  and listPicUrl != ''"> and list_pic_url = #{listPicUrl}</if>
+            <if test="simpleDesc != null  and simpleDesc != ''"> and simple_desc = #{simpleDesc}</if>
+            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
+            <if test="sortOrder != null "> and sort_order = #{sortOrder}</if>
+            <if test="isShow != null "> and is_show = #{isShow}</if>
+            <if test="floorPrice != null "> and floor_price = #{floorPrice}</if>
+            <if test="appListPicUrl != null  and appListPicUrl != ''"> and app_list_pic_url = #{appListPicUrl}</if>
+            <if test="isNew != null "> and is_new = #{isNew}</if>
+            <if test="newPicUrl != null  and newPicUrl != ''"> and new_pic_url = #{newPicUrl}</if>
+            <if test="newSortOrder != null "> and new_sort_order = #{newSortOrder}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopBrandById" parameterType="Long" resultMap="NideshopBrandResult">
+        <include refid="selectNideshopBrandVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopBrand" parameterType="NideshopBrand" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">list_pic_url,</if>
+            <if test="simpleDesc != null  and simpleDesc != ''">simple_desc,</if>
+            <if test="picUrl != null  and picUrl != ''">pic_url,</if>
+            <if test="sortOrder != null ">sort_order,</if>
+            <if test="isShow != null ">is_show,</if>
+            <if test="floorPrice != null ">floor_price,</if>
+            <if test="appListPicUrl != null  and appListPicUrl != ''">app_list_pic_url,</if>
+            <if test="isNew != null ">is_new,</if>
+            <if test="newPicUrl != null  and newPicUrl != ''">new_pic_url,</if>
+            <if test="newSortOrder != null ">new_sort_order,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">#{listPicUrl},</if>
+            <if test="simpleDesc != null  and simpleDesc != ''">#{simpleDesc},</if>
+            <if test="picUrl != null  and picUrl != ''">#{picUrl},</if>
+            <if test="sortOrder != null ">#{sortOrder},</if>
+            <if test="isShow != null ">#{isShow},</if>
+            <if test="floorPrice != null ">#{floorPrice},</if>
+            <if test="appListPicUrl != null  and appListPicUrl != ''">#{appListPicUrl},</if>
+            <if test="isNew != null ">#{isNew},</if>
+            <if test="newPicUrl != null  and newPicUrl != ''">#{newPicUrl},</if>
+            <if test="newSortOrder != null ">#{newSortOrder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopBrand" parameterType="NideshopBrand">
+        update nideshop_brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">list_pic_url = #{listPicUrl},</if>
+            <if test="simpleDesc != null  and simpleDesc != ''">simple_desc = #{simpleDesc},</if>
+            <if test="picUrl != null  and picUrl != ''">pic_url = #{picUrl},</if>
+            <if test="sortOrder != null ">sort_order = #{sortOrder},</if>
+            <if test="isShow != null ">is_show = #{isShow},</if>
+            <if test="floorPrice != null ">floor_price = #{floorPrice},</if>
+            <if test="appListPicUrl != null  and appListPicUrl != ''">app_list_pic_url = #{appListPicUrl},</if>
+            <if test="isNew != null ">is_new = #{isNew},</if>
+            <if test="newPicUrl != null  and newPicUrl != ''">new_pic_url = #{newPicUrl},</if>
+            <if test="newSortOrder != null ">new_sort_order = #{newSortOrder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopBrandById" parameterType="Long">
+        delete from nideshop_brand where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopBrandByIds" parameterType="String">
+        delete from nideshop_brand where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
