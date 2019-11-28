@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopUserMapper">
+
+    <resultMap type="NideshopUser" id="NideshopUserResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="gender"    column="gender"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="registerTime"    column="register_time"    />
+        <result property="lastLoginTime"    column="last_login_time"    />
+        <result property="lastLoginIp"    column="last_login_ip"    />
+        <result property="userLevelId"    column="user_level_id"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="registerIp"    column="register_ip"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="weixinOpenid"    column="weixin_openid"    />
+        <result property="token"    column="token"    />
+    </resultMap>
+
+    <sql id="selectNideshopUserVo">
+        select id, username, password, gender, birthday, register_time, last_login_time, last_login_ip, user_level_id, nickname, mobile, register_ip, avatar, weixin_openid, token from nideshop_user
+    </sql>
+
+    <select id="selectNideshopUserList" parameterType="NideshopUser" resultMap="NideshopUserResult">
+        <include refid="selectNideshopUserVo"/>
+        <where>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="gender != null "> and gender = #{gender}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="registerTime != null "> and register_time = #{registerTime}</if>
+            <if test="lastLoginTime != null "> and last_login_time = #{lastLoginTime}</if>
+            <if test="lastLoginIp != null  and lastLoginIp != ''"> and last_login_ip = #{lastLoginIp}</if>
+            <if test="userLevelId != null "> and user_level_id = #{userLevelId}</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="registerIp != null  and registerIp != ''"> and register_ip = #{registerIp}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="weixinOpenid != null  and weixinOpenid != ''"> and weixin_openid = #{weixinOpenid}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopUserById" parameterType="Integer" resultMap="NideshopUserResult">
+        <include refid="selectNideshopUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopUser" parameterType="NideshopUser" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">username,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="gender != null ">gender,</if>
+            <if test="birthday != null ">birthday,</if>
+            <if test="registerTime != null ">register_time,</if>
+            <if test="lastLoginTime != null ">last_login_time,</if>
+            <if test="lastLoginIp != null  and lastLoginIp != ''">last_login_ip,</if>
+            <if test="userLevelId != null ">user_level_id,</if>
+            <if test="nickname != null  and nickname != ''">nickname,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="registerIp != null  and registerIp != ''">register_ip,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="weixinOpenid != null  and weixinOpenid != ''">weixin_openid,</if>
+            <if test="token != null  and token != ''">token,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">#{username},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="gender != null ">#{gender},</if>
+            <if test="birthday != null ">#{birthday},</if>
+            <if test="registerTime != null ">#{registerTime},</if>
+            <if test="lastLoginTime != null ">#{lastLoginTime},</if>
+            <if test="lastLoginIp != null  and lastLoginIp != ''">#{lastLoginIp},</if>
+            <if test="userLevelId != null ">#{userLevelId},</if>
+            <if test="nickname != null  and nickname != ''">#{nickname},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="registerIp != null  and registerIp != ''">#{registerIp},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="weixinOpenid != null  and weixinOpenid != ''">#{weixinOpenid},</if>
+            <if test="token != null  and token != ''">#{token},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopUser" parameterType="NideshopUser">
+        update nideshop_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null  and username != ''">username = #{username},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="gender != null ">gender = #{gender},</if>
+            <if test="birthday != null ">birthday = #{birthday},</if>
+            <if test="registerTime != null ">register_time = #{registerTime},</if>
+            <if test="lastLoginTime != null ">last_login_time = #{lastLoginTime},</if>
+            <if test="lastLoginIp != null  and lastLoginIp != ''">last_login_ip = #{lastLoginIp},</if>
+            <if test="userLevelId != null ">user_level_id = #{userLevelId},</if>
+            <if test="nickname != null  and nickname != ''">nickname = #{nickname},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="registerIp != null  and registerIp != ''">register_ip = #{registerIp},</if>
+            <if test="avatar != null  and avatar != ''">avatar = #{avatar},</if>
+            <if test="weixinOpenid != null  and weixinOpenid != ''">weixin_openid = #{weixinOpenid},</if>
+            <if test="token != null  and token != ''">token = #{token},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopUserById" parameterType="Integer">
+        delete from nideshop_user where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopUserByIds" parameterType="String">
+        delete from nideshop_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

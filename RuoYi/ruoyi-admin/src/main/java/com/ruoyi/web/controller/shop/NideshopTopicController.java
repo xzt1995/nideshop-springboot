@@ -124,4 +124,11 @@ public class NideshopTopicController extends BaseController
     {
         return toAjax(nideshopTopicService.deleteNideshopTopicByIds(ids));
     }
+
+
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(NideshopTopic topic){
+        return toAjax(nideshopTopicService.updateNideshopTopic(topic));
+    }
 }

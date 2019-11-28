@@ -124,4 +124,10 @@ public class NideshopBrandController extends BaseController
     {
         return toAjax(nideshopBrandService.deleteNideshopBrandByIds(ids));
     }
+
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(NideshopBrand brand){
+        return toAjax(nideshopBrandService.updateNideshopBrand(brand));
+    }
 }

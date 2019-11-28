@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopShipperMapper">
+
+    <resultMap type="NideshopShipper" id="NideshopShipperResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="code"    column="code"    />
+        <result property="sortOrder"    column="sort_order"    />
+    </resultMap>
+
+    <sql id="selectNideshopShipperVo">
+        select id, name, code, sort_order from nideshop_shipper
+    </sql>
+
+    <select id="selectNideshopShipperList" parameterType="NideshopShipper" resultMap="NideshopShipperResult">
+        <include refid="selectNideshopShipperVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="sortOrder != null "> and sort_order = #{sortOrder}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopShipperById" parameterType="Long" resultMap="NideshopShipperResult">
+        <include refid="selectNideshopShipperVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopShipper" parameterType="NideshopShipper" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_shipper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="sortOrder != null ">sort_order,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="sortOrder != null ">#{sortOrder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopShipper" parameterType="NideshopShipper">
+        update nideshop_shipper
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="sortOrder != null ">sort_order = #{sortOrder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopShipperById" parameterType="Long">
+        delete from nideshop_shipper where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopShipperByIds" parameterType="String">
+        delete from nideshop_shipper where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
