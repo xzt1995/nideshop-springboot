@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopCouponMapper">
+
+    <resultMap type="NideshopCoupon" id="NideshopCouponResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="typeMoney"    column="type_money"    />
+        <result property="sendType"    column="send_type"    />
+        <result property="minAmount"    column="min_amount"    />
+        <result property="maxAmount"    column="max_amount"    />
+        <result property="sendStartDate"    column="send_start_date"    />
+        <result property="sendEndDate"    column="send_end_date"    />
+        <result property="useStartDate"    column="use_start_date"    />
+        <result property="useEndDate"    column="use_end_date"    />
+        <result property="minGoodsAmount"    column="min_goods_amount"    />
+    </resultMap>
+
+    <sql id="selectNideshopCouponVo">
+        select id, name, type_money, send_type, min_amount, max_amount, send_start_date, send_end_date, use_start_date, use_end_date, min_goods_amount from nideshop_coupon
+    </sql>
+
+    <select id="selectNideshopCouponList" parameterType="NideshopCoupon" resultMap="NideshopCouponResult">
+        <include refid="selectNideshopCouponVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeMoney != null "> and type_money = #{typeMoney}</if>
+            <if test="sendType != null "> and send_type = #{sendType}</if>
+            <if test="minAmount != null "> and min_amount = #{minAmount}</if>
+            <if test="maxAmount != null "> and max_amount = #{maxAmount}</if>
+            <if test="sendStartDate != null "> and send_start_date = #{sendStartDate}</if>
+            <if test="sendEndDate != null "> and send_end_date = #{sendEndDate}</if>
+            <if test="useStartDate != null "> and use_start_date = #{useStartDate}</if>
+            <if test="useEndDate != null "> and use_end_date = #{useEndDate}</if>
+            <if test="minGoodsAmount != null "> and min_goods_amount = #{minGoodsAmount}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopCouponById" parameterType="Integer" resultMap="NideshopCouponResult">
+        <include refid="selectNideshopCouponVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopCoupon" parameterType="NideshopCoupon" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="typeMoney != null ">type_money,</if>
+            <if test="sendType != null ">send_type,</if>
+            <if test="minAmount != null ">min_amount,</if>
+            <if test="maxAmount != null ">max_amount,</if>
+            <if test="sendStartDate != null ">send_start_date,</if>
+            <if test="sendEndDate != null ">send_end_date,</if>
+            <if test="useStartDate != null ">use_start_date,</if>
+            <if test="useEndDate != null ">use_end_date,</if>
+            <if test="minGoodsAmount != null ">min_goods_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="typeMoney != null ">#{typeMoney},</if>
+            <if test="sendType != null ">#{sendType},</if>
+            <if test="minAmount != null ">#{minAmount},</if>
+            <if test="maxAmount != null ">#{maxAmount},</if>
+            <if test="sendStartDate != null ">#{sendStartDate},</if>
+            <if test="sendEndDate != null ">#{sendEndDate},</if>
+            <if test="useStartDate != null ">#{useStartDate},</if>
+            <if test="useEndDate != null ">#{useEndDate},</if>
+            <if test="minGoodsAmount != null ">#{minGoodsAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopCoupon" parameterType="NideshopCoupon">
+        update nideshop_coupon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="typeMoney != null ">type_money = #{typeMoney},</if>
+            <if test="sendType != null ">send_type = #{sendType},</if>
+            <if test="minAmount != null ">min_amount = #{minAmount},</if>
+            <if test="maxAmount != null ">max_amount = #{maxAmount},</if>
+            <if test="sendStartDate != null ">send_start_date = #{sendStartDate},</if>
+            <if test="sendEndDate != null ">send_end_date = #{sendEndDate},</if>
+            <if test="useStartDate != null ">use_start_date = #{useStartDate},</if>
+            <if test="useEndDate != null ">use_end_date = #{useEndDate},</if>
+            <if test="minGoodsAmount != null ">min_goods_amount = #{minGoodsAmount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopCouponById" parameterType="Integer">
+        delete from nideshop_coupon where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopCouponByIds" parameterType="String">
+        delete from nideshop_coupon where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -113,7 +113,10 @@
                 // },
                 {
                     field : 'imageUrl',
-                    title : '图片链接'
+                    title : '图片链接',
+                    formatter:function (value) {
+                        return "<img src='"+value+"' height='200' width='200' />"
+                    }
                 },
                 {
                     field : 'content',

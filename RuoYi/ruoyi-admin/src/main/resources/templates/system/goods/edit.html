@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改商品信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-goods-edit" th:object="${nideshopGoods}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品分类ID：</label>
+                <div class="col-sm-8">
+                    <input name="categoryId" th:field="*{categoryId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品sn号：</label>
+                <div class="col-sm-8">
+                    <input name="goodsSn" th:field="*{goodsSn}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">品牌ID：</label>
+                <div class="col-sm-8">
+                    <input name="brandId" th:field="*{brandId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品数量：</label>
+                <div class="col-sm-8">
+                    <input name="goodsNumber" th:field="*{goodsNumber}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">关键字：</label>
+                <div class="col-sm-8">
+                    <input name="keywords" th:field="*{keywords}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品简介：</label>
+                <div class="col-sm-8">
+                    <input name="goodsBrief" th:field="*{goodsBrief}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品描述：</label>
+                <div class="col-sm-8">
+                    <input name="goodsDesc" th:field="*{goodsDesc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否上架：</label>
+                <div class="col-sm-8">
+                    <input name="isOnSale" th:field="*{isOnSale}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">添加时间：</label>
+                <div class="col-sm-8">
+                    <input name="addTime" th:field="*{addTime}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序：</label>
+                <div class="col-sm-8">
+                    <input name="sortOrder" th:field="*{sortOrder}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否删除：</label>
+                <div class="col-sm-8">
+                    <input name="isDelete" th:field="*{isDelete}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">属性类别：</label>
+                <div class="col-sm-8">
+                    <input name="attributeCategory" th:field="*{attributeCategory}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专柜价格：</label>
+                <div class="col-sm-8">
+                    <input name="counterPrice" th:field="*{counterPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">附加价格：</label>
+                <div class="col-sm-8">
+                    <input name="extraPrice" th:field="*{extraPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否新品：</label>
+                <div class="col-sm-8">
+                    <input name="isNew" th:field="*{isNew}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品单位：</label>
+                <div class="col-sm-8">
+                    <input name="goodsUnit" th:field="*{goodsUnit}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品主图：</label>
+                <div class="col-sm-8">
+                    <input name="primaryPicUrl" th:field="*{primaryPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品列表图：</label>
+                <div class="col-sm-8">
+                    <input name="listPicUrl" th:field="*{listPicUrl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">零售价格：</label>
+                <div class="col-sm-8">
+                    <input name="retailPrice" th:field="*{retailPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售量：</label>
+                <div class="col-sm-8">
+                    <input name="sellVolume" th:field="*{sellVolume}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主sku　product_id：</label>
+                <div class="col-sm-8">
+                    <input name="primaryProductId" th:field="*{primaryProductId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">单位价格，单价：</label>
+                <div class="col-sm-8">
+                    <input name="unitPrice" th:field="*{unitPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">促销说明：</label>
+                <div class="col-sm-8">
+                    <input name="promotionDesc" th:field="*{promotionDesc}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">促销标志：</label>
+                <div class="col-sm-8">
+                    <input name="promotionTag" th:field="*{promotionTag}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">APP专享价：</label>
+                <div class="col-sm-8">
+                    <input name="appExclusivePrice" th:field="*{appExclusivePrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否是APP专属：</label>
+                <div class="col-sm-8">
+                    <input name="isAppExclusive" th:field="*{isAppExclusive}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否限制：</label>
+                <div class="col-sm-8">
+                    <input name="isLimited" th:field="*{isLimited}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否热门：</label>
+                <div class="col-sm-8">
+                    <input name="isHot" th:field="*{isHot}" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/goods";
+        $("#form-goods-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-goods-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

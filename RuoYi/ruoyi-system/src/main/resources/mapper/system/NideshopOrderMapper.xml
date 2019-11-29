@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopOrderMapper">
+
+    <resultMap type="NideshopOrder" id="NideshopOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderSn"    column="order_sn"    />
+        <result property="userId"    column="user_id"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="shippingStatus"    column="shipping_status"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="consignee"    column="consignee"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="address"    column="address"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="postscript"    column="postscript"    />
+        <result property="shippingFee"    column="shipping_fee"    />
+        <result property="payName"    column="pay_name"    />
+        <result property="payId"    column="pay_id"    />
+        <result property="actualPrice"    column="actual_price"    />
+        <result property="integral"    column="integral"    />
+        <result property="integralMoney"    column="integral_money"    />
+        <result property="orderPrice"    column="order_price"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="confirmTime"    column="confirm_time"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="freightPrice"    column="freight_price"    />
+        <result property="couponId"    column="coupon_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="couponPrice"    column="coupon_price"    />
+        <result property="callbackStatus"    column="callback_status"    />
+    </resultMap>
+
+    <sql id="selectNideshopOrderVo">
+        select id, order_sn, user_id, order_status, shipping_status, pay_status, consignee, country, province, city, district, address, mobile, postscript, shipping_fee, pay_name, pay_id, actual_price, integral, integral_money, order_price, goods_price, add_time, confirm_time, pay_time, freight_price, coupon_id, parent_id, coupon_price, callback_status from nideshop_order
+    </sql>
+
+    <select id="selectNideshopOrderList" parameterType="NideshopOrder" resultMap="NideshopOrderResult">
+        <include refid="selectNideshopOrderVo"/>
+        <where>
+            <if test="orderSn != null  and orderSn != ''"> and order_sn = #{orderSn}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+            <if test="shippingStatus != null "> and shipping_status = #{shippingStatus}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+            <if test="consignee != null  and consignee != ''"> and consignee = #{consignee}</if>
+            <if test="country != null "> and country = #{country}</if>
+            <if test="province != null "> and province = #{province}</if>
+            <if test="city != null "> and city = #{city}</if>
+            <if test="district != null "> and district = #{district}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="postscript != null  and postscript != ''"> and postscript = #{postscript}</if>
+            <if test="shippingFee != null "> and shipping_fee = #{shippingFee}</if>
+            <if test="payName != null  and payName != ''"> and pay_name like concat('%', #{payName}, '%')</if>
+            <if test="payId != null "> and pay_id = #{payId}</if>
+            <if test="actualPrice != null "> and actual_price = #{actualPrice}</if>
+            <if test="integral != null "> and integral = #{integral}</if>
+            <if test="integralMoney != null "> and integral_money = #{integralMoney}</if>
+            <if test="orderPrice != null "> and order_price = #{orderPrice}</if>
+            <if test="goodsPrice != null "> and goods_price = #{goodsPrice}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+            <if test="confirmTime != null "> and confirm_time = #{confirmTime}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="freightPrice != null "> and freight_price = #{freightPrice}</if>
+            <if test="couponId != null "> and coupon_id = #{couponId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="couponPrice != null "> and coupon_price = #{couponPrice}</if>
+            <if test="callbackStatus != null "> and callback_status = #{callbackStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopOrderById" parameterType="Integer" resultMap="NideshopOrderResult">
+        <include refid="selectNideshopOrderVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopOrder" parameterType="NideshopOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into nideshop_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">order_sn,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="orderStatus != null ">order_status,</if>
+            <if test="shippingStatus != null ">shipping_status,</if>
+            <if test="payStatus != null ">pay_status,</if>
+            <if test="consignee != null  and consignee != ''">consignee,</if>
+            <if test="country != null ">country,</if>
+            <if test="province != null ">province,</if>
+            <if test="city != null ">city,</if>
+            <if test="district != null ">district,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="postscript != null  and postscript != ''">postscript,</if>
+            <if test="shippingFee != null ">shipping_fee,</if>
+            <if test="payName != null  and payName != ''">pay_name,</if>
+            <if test="payId != null ">pay_id,</if>
+            <if test="actualPrice != null ">actual_price,</if>
+            <if test="integral != null ">integral,</if>
+            <if test="integralMoney != null ">integral_money,</if>
+            <if test="orderPrice != null ">order_price,</if>
+            <if test="goodsPrice != null ">goods_price,</if>
+            <if test="addTime != null ">add_time,</if>
+            <if test="confirmTime != null ">confirm_time,</if>
+            <if test="payTime != null ">pay_time,</if>
+            <if test="freightPrice != null ">freight_price,</if>
+            <if test="couponId != null ">coupon_id,</if>
+            <if test="parentId != null ">parent_id,</if>
+            <if test="couponPrice != null ">coupon_price,</if>
+            <if test="callbackStatus != null ">callback_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">#{orderSn},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="orderStatus != null ">#{orderStatus},</if>
+            <if test="shippingStatus != null ">#{shippingStatus},</if>
+            <if test="payStatus != null ">#{payStatus},</if>
+            <if test="consignee != null  and consignee != ''">#{consignee},</if>
+            <if test="country != null ">#{country},</if>
+            <if test="province != null ">#{province},</if>
+            <if test="city != null ">#{city},</if>
+            <if test="district != null ">#{district},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="postscript != null  and postscript != ''">#{postscript},</if>
+            <if test="shippingFee != null ">#{shippingFee},</if>
+            <if test="payName != null  and payName != ''">#{payName},</if>
+            <if test="payId != null ">#{payId},</if>
+            <if test="actualPrice != null ">#{actualPrice},</if>
+            <if test="integral != null ">#{integral},</if>
+            <if test="integralMoney != null ">#{integralMoney},</if>
+            <if test="orderPrice != null ">#{orderPrice},</if>
+            <if test="goodsPrice != null ">#{goodsPrice},</if>
+            <if test="addTime != null ">#{addTime},</if>
+            <if test="confirmTime != null ">#{confirmTime},</if>
+            <if test="payTime != null ">#{payTime},</if>
+            <if test="freightPrice != null ">#{freightPrice},</if>
+            <if test="couponId != null ">#{couponId},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="couponPrice != null ">#{couponPrice},</if>
+            <if test="callbackStatus != null ">#{callbackStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopOrder" parameterType="NideshopOrder">
+        update nideshop_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">order_sn = #{orderSn},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="orderStatus != null ">order_status = #{orderStatus},</if>
+            <if test="shippingStatus != null ">shipping_status = #{shippingStatus},</if>
+            <if test="payStatus != null ">pay_status = #{payStatus},</if>
+            <if test="consignee != null  and consignee != ''">consignee = #{consignee},</if>
+            <if test="country != null ">country = #{country},</if>
+            <if test="province != null ">province = #{province},</if>
+            <if test="city != null ">city = #{city},</if>
+            <if test="district != null ">district = #{district},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="postscript != null  and postscript != ''">postscript = #{postscript},</if>
+            <if test="shippingFee != null ">shipping_fee = #{shippingFee},</if>
+            <if test="payName != null  and payName != ''">pay_name = #{payName},</if>
+            <if test="payId != null ">pay_id = #{payId},</if>
+            <if test="actualPrice != null ">actual_price = #{actualPrice},</if>
+            <if test="integral != null ">integral = #{integral},</if>
+            <if test="integralMoney != null ">integral_money = #{integralMoney},</if>
+            <if test="orderPrice != null ">order_price = #{orderPrice},</if>
+            <if test="goodsPrice != null ">goods_price = #{goodsPrice},</if>
+            <if test="addTime != null ">add_time = #{addTime},</if>
+            <if test="confirmTime != null ">confirm_time = #{confirmTime},</if>
+            <if test="payTime != null ">pay_time = #{payTime},</if>
+            <if test="freightPrice != null ">freight_price = #{freightPrice},</if>
+            <if test="couponId != null ">coupon_id = #{couponId},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="couponPrice != null ">coupon_price = #{couponPrice},</if>
+            <if test="callbackStatus != null ">callback_status = #{callbackStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopOrderById" parameterType="Integer">
+        delete from nideshop_order where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopOrderByIds" parameterType="String">
+        delete from nideshop_order where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

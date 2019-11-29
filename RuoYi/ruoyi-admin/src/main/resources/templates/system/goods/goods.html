@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商品信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>商品分类ID：</p>
+                                <input type="text" name="categoryId"/>
+                            </li>
+                            <li>
+                                <p>商品sn号：</p>
+                                <input type="text" name="goodsSn"/>
+                            </li>
+                            <li>
+                                <p>名称：</p>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <p>品牌ID：</p>
+                                <input type="text" name="brandId"/>
+                            </li>
+                            <li>
+                                <p>是否热门：</p>
+                                <input type="text" name="isHot"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:goods:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:goods:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:goods:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:goods:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:goods:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:goods:remove')}]];
+        var prefix = ctx + "system/goods";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商品信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id',
+                    title : 'id',
+                    //visible: false
+                },
+                {
+                    field : 'categoryId',
+                    title : '商品分类ID'
+                },
+                {
+                    field : 'goodsSn',
+                    title : '商品sn号'
+                },
+                {
+                    field : 'name',
+                    title : '名称'
+                },
+                {
+                    field : 'brandId',
+                    title : '品牌ID'
+                },
+                {
+                    field : 'goodsNumber',
+                    title : '商品数量'
+                },
+                // {
+                //     field : 'keywords',
+                //     title : '关键字'
+                // },
+                {
+                    field : 'goodsBrief',
+                    title : '商品简介'
+                },
+                // {
+                //     field : 'goodsDesc',
+                //     title : '商品描述'
+                // },
+                {
+                    field : 'isOnSale',
+                    title : '是否上架'
+                },
+                // {
+                //     field : 'addTime',
+                //     title : '添加时间'
+                // },
+                {
+                    field : 'sortOrder',
+                    title : '排序'
+                },
+                {
+                    field : 'isDelete',
+                    title : '是否删除'
+                },
+                // {
+                //     field : 'attributeCategory',
+                //     title : '属性类别'
+                // },
+                {
+                    field : 'counterPrice',
+                    title : '专柜价格'
+                },
+                {
+                    field : 'extraPrice',
+                    title : '附加价格'
+                },
+                {
+                    field : 'isNew',
+                    title : '是否新品'
+                },
+                {
+                    field : 'goodsUnit',
+                    title : '商品单位'
+                },
+                {
+                    field : 'primaryPicUrl',
+                    title : '商品主图',
+                    formatter:function (value) {
+                        return "<img src='"+value+"' height='100' width='100' />"
+                    }
+                },
+                {
+                    field : 'listPicUrl',
+                    title : '商品列表图',
+                    formatter:function (value) {
+                        return "<img src='"+value+"' height='100' width='100' />"
+                    }
+                },
+                {
+                    field : 'retailPrice',
+                    title : '零售价格'
+                },
+                {
+                    field : 'sellVolume',
+                    title : '销售量'
+                },
+                {
+                    field : 'primaryProductId',
+                    title : '主sku　product_id'
+                },
+                {
+                    field : 'unitPrice',
+                    title : '单位价格，单价'
+                },
+                {
+                    field : 'promotionDesc',
+                    title : '促销说明'
+                },
+                {
+                    field : 'promotionTag',
+                    title : '促销标志'
+                },
+                {
+                    field : 'appExclusivePrice',
+                    title : 'APP专享价'
+                },
+                {
+                    field : 'isAppExclusive',
+                    title : '是否是APP专属'
+                },
+                {
+                    field : 'isLimited',
+                    title : '是否限制'
+                },
+                {
+                    field : 'isHot',
+                    title : '是否热门'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

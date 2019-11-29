@@ -73,8 +73,8 @@
                 },
                 {
                     field : 'id',
-                    title : 'null',
-                    visible: false
+                    title : 'id'
+                   // visible: false
                 },
                 {
                     field : 'name',
@@ -90,16 +90,23 @@
                 },
                 {
                     field : 'picUrl',
-                    title : '图片链接'
+                    title : '图片链接',
+                    formatter:function (value) {
+                        return "<img src='"+value+"' height='100' width='100' />"
+                    }
                 },
                 // {
                 //     field : 'sortOrder',
                 //     title : '${comment}'
                 // },
-                // {
-                //     field : 'isShow',
-                //     title : '${comment}'
-                // },
+                {
+                    title: '是否上架',
+                   // field : 'isShow',
+                    align : 'center',
+                    formatter: function (value, row, index) {
+                        return statusTools(row,1);
+                    }
+                },
                 {
                     field : 'floorPrice',
                     title : '最低价'
@@ -108,10 +115,13 @@
                 //     field : 'appListPicUrl',
                 //     title : '${comment}'
                 // },
-                // {
-                //     field : 'isNew',
-                //     title : '${comment}'
-                // },
+                {
+                    title : '是否新品',
+                    align : 'center',
+                    formatter: function (value, row, index) {
+                        return statusTools(row,2);
+                    }
+                },
                 // {
                 //     field : 'newPicUrl',
                 //     title : '${comment}'
@@ -130,9 +140,63 @@
                         return actions.join('');
                     }
                 }]
+
+
             };
             $.table.init(options);
         });
+
+        function statusTools(row,type) {
+            //上架
+            if(type == 1){
+                if (row.isShow == 0) {
+                    return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\',1)"></i> ';
+                } else {
+                    return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\',1)"></i> ';
+                }
+            }
+
+            //新品
+            if(type == 2){
+                if (row.isNew == 0 ){
+                    return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\',2)"></i> ';
+                } else {
+                    return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\',2)"></i> ';
+                }
+            }
+
+        }
+
+
+        function enable(id,type) {
+            if(type == 1){
+                $.modal.confirm("确认要上架吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "id": id, "isShow": 1 });
+                })
+            }
+
+            if(type == 2){
+                $.modal.confirm("确认要设置成新品吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "id": id, "isNew": 1 });
+                })
+            }
+        }
+
+
+        function disable(id,type) {
+            if(type == 1){
+                $.modal.confirm("确认要下架吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "id": id, "isShow": 0 });
+                })
+            }
+
+            if(type == 2){
+                $.modal.confirm("确认取消新品吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "id": id, "isNew": 0 });
+                })
+            }
+        }
+
     </script>
 </body>
 </html>
