@@ -7,7 +7,7 @@
 </head>
 <body class="gray-bg">
 
-<div class="ui-layout-west">
+<div class="ui-layout-west ui-layout-pane ui-layout-pane-west" style="position: absolute; margin: 0px; left: 0px; right: auto; top: 0px; bottom: 0px; height: 608px; z-index: 0; overflow: hidden; width: 185px; display: block; visibility: visible;">
     <div class="box box-main">
         <div class="box-header">
             <div class="box-title">
@@ -25,7 +25,7 @@
     </div>
 </div>
 
-
+<div class="ui-layout-center ui-layout-pane ui-layout-pane-center" style="position: absolute; margin: 0px; left: 193px; right: 0px; top: 0px; bottom: 0px; height: 608px; width: 614px; z-index: 0; display: block; visibility: visible;">
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 search-collapse">
@@ -76,6 +76,7 @@
         </div>
     </div>
 </div>
+</div>
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: layout-latest-js" />
 <th:block th:include="include :: ztree-js" />
@@ -99,6 +100,7 @@
             url: prefix + "/list",
             createUrl: prefix + "/add",
             updateUrl: prefix + "/edit/{id}",
+            updateSpecUrl: prefix + "/editSpec/{id}/{type_id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             modalName: "商品分类",
@@ -107,8 +109,8 @@
             },
                 {
                     field: 'id',
-                    title: 'id',
-                    visible: false
+                    title: 'id'
+                   // visible: false
                 },
                 {
                     field: 'name',

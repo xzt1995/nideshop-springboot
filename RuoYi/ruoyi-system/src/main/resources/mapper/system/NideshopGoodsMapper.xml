@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.NideshopGoodsMapper">
+
+    <resultMap type="NideshopGoods" id="NideshopGoodsResult">
+        <result property="id"    column="id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="goodsSn"    column="goods_sn"    />
+        <result property="name"    column="name"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="keywords"    column="keywords"    />
+        <result property="goodsBrief"    column="goods_brief"    />
+        <result property="goodsDesc"    column="goods_desc"    />
+        <result property="isOnSale"    column="is_on_sale"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="sortOrder"    column="sort_order"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="attributeCategory"    column="attribute_category"    />
+        <result property="counterPrice"    column="counter_price"    />
+        <result property="extraPrice"    column="extra_price"    />
+        <result property="isNew"    column="is_new"    />
+        <result property="goodsUnit"    column="goods_unit"    />
+        <result property="primaryPicUrl"    column="primary_pic_url"    />
+        <result property="listPicUrl"    column="list_pic_url"    />
+        <result property="retailPrice"    column="retail_price"    />
+        <result property="sellVolume"    column="sell_volume"    />
+        <result property="primaryProductId"    column="primary_product_id"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="promotionDesc"    column="promotion_desc"    />
+        <result property="promotionTag"    column="promotion_tag"    />
+        <result property="appExclusivePrice"    column="app_exclusive_price"    />
+        <result property="isAppExclusive"    column="is_app_exclusive"    />
+        <result property="isLimited"    column="is_limited"    />
+        <result property="isHot"    column="is_hot"    />
+    </resultMap>
+
+    <sql id="selectNideshopGoodsVo">
+        select id, category_id, goods_sn, name, brand_id, goods_number, keywords, goods_brief, goods_desc, is_on_sale, add_time, sort_order, is_delete, attribute_category, counter_price, extra_price, is_new, goods_unit, primary_pic_url, list_pic_url, retail_price, sell_volume, primary_product_id, unit_price, promotion_desc, promotion_tag, app_exclusive_price, is_app_exclusive, is_limited, is_hot from nideshop_goods
+    </sql>
+
+    <select id="selectNideshopGoodsList" parameterType="NideshopGoods" resultMap="NideshopGoodsResult">
+        <include refid="selectNideshopGoodsVo"/>
+        <where>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="goodsSn != null  and goodsSn != ''"> and goods_sn = #{goodsSn}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="brandId != null "> and brand_id = #{brandId}</if>
+            <if test="goodsNumber != null "> and goods_number = #{goodsNumber}</if>
+            <if test="keywords != null  and keywords != ''"> and keywords = #{keywords}</if>
+            <if test="goodsBrief != null  and goodsBrief != ''"> and goods_brief = #{goodsBrief}</if>
+            <if test="goodsDesc != null  and goodsDesc != ''"> and goods_desc = #{goodsDesc}</if>
+            <if test="isOnSale != null "> and is_on_sale = #{isOnSale}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+            <if test="sortOrder != null "> and sort_order = #{sortOrder}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="attributeCategory != null "> and attribute_category = #{attributeCategory}</if>
+            <if test="counterPrice != null "> and counter_price = #{counterPrice}</if>
+            <if test="extraPrice != null "> and extra_price = #{extraPrice}</if>
+            <if test="isNew != null "> and is_new = #{isNew}</if>
+            <if test="goodsUnit != null  and goodsUnit != ''"> and goods_unit = #{goodsUnit}</if>
+            <if test="primaryPicUrl != null  and primaryPicUrl != ''"> and primary_pic_url = #{primaryPicUrl}</if>
+            <if test="listPicUrl != null  and listPicUrl != ''"> and list_pic_url = #{listPicUrl}</if>
+            <if test="retailPrice != null "> and retail_price = #{retailPrice}</if>
+            <if test="sellVolume != null "> and sell_volume = #{sellVolume}</if>
+            <if test="primaryProductId != null "> and primary_product_id = #{primaryProductId}</if>
+            <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
+            <if test="promotionDesc != null  and promotionDesc != ''"> and promotion_desc = #{promotionDesc}</if>
+            <if test="promotionTag != null  and promotionTag != ''"> and promotion_tag = #{promotionTag}</if>
+            <if test="appExclusivePrice != null "> and app_exclusive_price = #{appExclusivePrice}</if>
+            <if test="isAppExclusive != null "> and is_app_exclusive = #{isAppExclusive}</if>
+            <if test="isLimited != null "> and is_limited = #{isLimited}</if>
+            <if test="isHot != null "> and is_hot = #{isHot}</if>
+        </where>
+    </select>
+
+    <select id="selectNideshopGoodsById" parameterType="Long" resultMap="NideshopGoodsResult">
+        <include refid="selectNideshopGoodsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNideshopGoods" parameterType="NideshopGoods">
+        insert into nideshop_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="categoryId != null ">category_id,</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="brandId != null ">brand_id,</if>
+            <if test="goodsNumber != null ">goods_number,</if>
+            <if test="keywords != null  and keywords != ''">keywords,</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">goods_brief,</if>
+            <if test="goodsDesc != null  and goodsDesc != ''">goods_desc,</if>
+            <if test="isOnSale != null ">is_on_sale,</if>
+            <if test="addTime != null ">add_time,</if>
+            <if test="sortOrder != null ">sort_order,</if>
+            <if test="isDelete != null ">is_delete,</if>
+            <if test="attributeCategory != null ">attribute_category,</if>
+            <if test="counterPrice != null ">counter_price,</if>
+            <if test="extraPrice != null ">extra_price,</if>
+            <if test="isNew != null ">is_new,</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">goods_unit,</if>
+            <if test="primaryPicUrl != null  and primaryPicUrl != ''">primary_pic_url,</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">list_pic_url,</if>
+            <if test="retailPrice != null ">retail_price,</if>
+            <if test="sellVolume != null ">sell_volume,</if>
+            <if test="primaryProductId != null ">primary_product_id,</if>
+            <if test="unitPrice != null ">unit_price,</if>
+            <if test="promotionDesc != null  and promotionDesc != ''">promotion_desc,</if>
+            <if test="promotionTag != null  and promotionTag != ''">promotion_tag,</if>
+            <if test="appExclusivePrice != null ">app_exclusive_price,</if>
+            <if test="isAppExclusive != null ">is_app_exclusive,</if>
+            <if test="isLimited != null ">is_limited,</if>
+            <if test="isHot != null ">is_hot,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="categoryId != null ">#{categoryId},</if>
+            <if test="goodsSn != null  and goodsSn != ''">#{goodsSn},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="brandId != null ">#{brandId},</if>
+            <if test="goodsNumber != null ">#{goodsNumber},</if>
+            <if test="keywords != null  and keywords != ''">#{keywords},</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">#{goodsBrief},</if>
+            <if test="goodsDesc != null  and goodsDesc != ''">#{goodsDesc},</if>
+            <if test="isOnSale != null ">#{isOnSale},</if>
+            <if test="addTime != null ">#{addTime},</if>
+            <if test="sortOrder != null ">#{sortOrder},</if>
+            <if test="isDelete != null ">#{isDelete},</if>
+            <if test="attributeCategory != null ">#{attributeCategory},</if>
+            <if test="counterPrice != null ">#{counterPrice},</if>
+            <if test="extraPrice != null ">#{extraPrice},</if>
+            <if test="isNew != null ">#{isNew},</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">#{goodsUnit},</if>
+            <if test="primaryPicUrl != null  and primaryPicUrl != ''">#{primaryPicUrl},</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">#{listPicUrl},</if>
+            <if test="retailPrice != null ">#{retailPrice},</if>
+            <if test="sellVolume != null ">#{sellVolume},</if>
+            <if test="primaryProductId != null ">#{primaryProductId},</if>
+            <if test="unitPrice != null ">#{unitPrice},</if>
+            <if test="promotionDesc != null  and promotionDesc != ''">#{promotionDesc},</if>
+            <if test="promotionTag != null  and promotionTag != ''">#{promotionTag},</if>
+            <if test="appExclusivePrice != null ">#{appExclusivePrice},</if>
+            <if test="isAppExclusive != null ">#{isAppExclusive},</if>
+            <if test="isLimited != null ">#{isLimited},</if>
+            <if test="isHot != null ">#{isHot},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNideshopGoods" parameterType="NideshopGoods">
+        update nideshop_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null ">category_id = #{categoryId},</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn = #{goodsSn},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="brandId != null ">brand_id = #{brandId},</if>
+            <if test="goodsNumber != null ">goods_number = #{goodsNumber},</if>
+            <if test="keywords != null  and keywords != ''">keywords = #{keywords},</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">goods_brief = #{goodsBrief},</if>
+            <if test="goodsDesc != null  and goodsDesc != ''">goods_desc = #{goodsDesc},</if>
+            <if test="isOnSale != null ">is_on_sale = #{isOnSale},</if>
+            <if test="addTime != null ">add_time = #{addTime},</if>
+            <if test="sortOrder != null ">sort_order = #{sortOrder},</if>
+            <if test="isDelete != null ">is_delete = #{isDelete},</if>
+            <if test="attributeCategory != null ">attribute_category = #{attributeCategory},</if>
+            <if test="counterPrice != null ">counter_price = #{counterPrice},</if>
+            <if test="extraPrice != null ">extra_price = #{extraPrice},</if>
+            <if test="isNew != null ">is_new = #{isNew},</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">goods_unit = #{goodsUnit},</if>
+            <if test="primaryPicUrl != null  and primaryPicUrl != ''">primary_pic_url = #{primaryPicUrl},</if>
+            <if test="listPicUrl != null  and listPicUrl != ''">list_pic_url = #{listPicUrl},</if>
+            <if test="retailPrice != null ">retail_price = #{retailPrice},</if>
+            <if test="sellVolume != null ">sell_volume = #{sellVolume},</if>
+            <if test="primaryProductId != null ">primary_product_id = #{primaryProductId},</if>
+            <if test="unitPrice != null ">unit_price = #{unitPrice},</if>
+            <if test="promotionDesc != null  and promotionDesc != ''">promotion_desc = #{promotionDesc},</if>
+            <if test="promotionTag != null  and promotionTag != ''">promotion_tag = #{promotionTag},</if>
+            <if test="appExclusivePrice != null ">app_exclusive_price = #{appExclusivePrice},</if>
+            <if test="isAppExclusive != null ">is_app_exclusive = #{isAppExclusive},</if>
+            <if test="isLimited != null ">is_limited = #{isLimited},</if>
+            <if test="isHot != null ">is_hot = #{isHot},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNideshopGoodsById" parameterType="Long">
+        delete from nideshop_goods where id = #{id}
+    </delete>
+
+    <delete id="deleteNideshopGoodsByIds" parameterType="String">
+        delete from nideshop_goods where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改优惠卷红包')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-coupon-edit" th:object="${nideshopCoupon}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">金额类型：</label>
+                <div class="col-sm-8">
+                    <input name="typeMoney" th:field="*{typeMoney}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">发送方式：</label>
+                <div class="col-sm-8">
+                    <input name="sendType" th:field="*{sendType}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">最小数量：</label>
+                <div class="col-sm-8">
+                    <input name="minAmount" th:field="*{minAmount}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">最大数量：</label>
+                <div class="col-sm-8">
+                    <input name="maxAmount" th:field="*{maxAmount}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">发放开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="sendStartDate" th:field="*{sendStartDate}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">发放结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="sendEndDate" th:field="*{sendEndDate}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">有效起始时间：</label>
+                <div class="col-sm-8">
+                    <input name="useStartDate" th:field="*{useStartDate}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">有效截止日期：</label>
+                <div class="col-sm-8">
+                    <input name="useEndDate" th:field="*{useEndDate}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">数量：</label>
+                <div class="col-sm-8">
+                    <input name="minGoodsAmount" th:field="*{minGoodsAmount}" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/coupon";
+        $("#form-coupon-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-coupon-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
